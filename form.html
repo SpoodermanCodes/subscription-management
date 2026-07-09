@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <!-- ============================================================
+         REQUIREMENT 20: Code Organization
+         Standard HTML5 document structure with proper indentation
+         and meaningful comments throughout.
+    ============================================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubFlow – Registration Portal | Advanced HTML5 Forms</title>
+    <meta name="description" content="SubFlow Registration Portal – a professional HTML5 form page built with semantic elements, advanced input controls, and rich validation for the Full Stack Development Lab.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="form_styles.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+
+        <!-- =============================================================
+             REQUIREMENT 2 & 19: HTML5 <header> with App Title, Logo, Tagline
+             Uses semantic <header> element
+        ============================================================== -->
+        <header class="site-header" id="site-header">
+            <div class="header-inner">
+                <div class="header-brand">
+                    <img src="subflow_logo.png" alt="SubFlow Logo" class="header-logo" id="headerLogo">
+                    <div class="header-text">
+                        <h1 class="header-title">SubFlow</h1>
+                        <p class="header-tagline">Smart Subscription Tracking, Simplified.</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark/Light Theme">
+                        <i class="ph ph-moon" id="themeIcon"></i>
+                    </button>
+                    <a href="index.html" class="btn btn-outline btn-sm" id="backToDashboard">
+                        <i class="ph ph-arrow-left"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- =============================================================
+             REQUIREMENT 3 & 19: Navigation Menu using semantic <nav>
+             Links: Home, About, Services, Registration, Contact, Help
+        ============================================================== -->
+        <nav class="site-nav" id="site-nav">
+            <div class="nav-inner">
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#intro" class="nav-link active" id="nav-home"><i class="ph ph-house"></i> Home</a></li>
+                    <li><a href="#about-section" class="nav-link" id="nav-about"><i class="ph ph-info"></i> About</a></li>
+                    <li><a href="#services-section" class="nav-link" id="nav-services"><i class="ph ph-gear"></i> Services</a></li>
+                    <li><a href="#registration" class="nav-link" id="nav-registration"><i class="ph ph-user-plus"></i> Registration</a></li>
+                    <li><a href="#contact-section" class="nav-link" id="nav-contact"><i class="ph ph-envelope"></i> Contact</a></li>
+                    <li><a href="#help-section" class="nav-link" id="nav-help"><i class="ph ph-question"></i> Help</a></li>
+                </ul>
+                <!-- Mobile hamburger -->
+                <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- =============================================================
+             REQUIREMENT 4 & 19: Introduction Section using <main>, <section>, <article>
+             Semantic elements used throughout
+        ============================================================== -->
+        <main class="site-main" id="site-main">
+
+            <section id="intro" class="content-section hero-section">
+                <article class="hero-article">
+                    <div class="hero-badge">WELCOME</div>
+                    <h2 class="hero-heading">SubFlow Registration Portal</h2>
+                    <p class="hero-text">
+                        SubFlow is a professional subscription management platform designed for IT managers,
+                        finance teams, and startup founders. This registration portal allows new users to
+                        create their administrator profile using advanced HTML5 form controls with built-in
+                        validation, semantic structure, and accessibility features.
+                    </p>
+                    <p class="hero-text secondary">
+                        Built as part of the <strong>23IT721 – Full Stack Development Laboratory</strong>,
+                        this page demonstrates mastery of HTML5 semantic elements, modern form controls,
+                        editable content areas, and responsive web design principles.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="hero-stat-value" id="heroStat1">1,482</span>
+                            <span class="hero-stat-label">Users Registered</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value" id="heroStat2">99.9%</span>
+                            <span class="hero-stat-label">Uptime SLA</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value" id="heroStat3">$2.4M</span>
+                            <span class="hero-stat-label">Savings Tracked</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- =============================================================
+                 REQUIREMENT 4 (cont.): About Section using <section> and <article>
+            ============================================================== -->
+            <section id="about-section" class="content-section">
+                <div class="section-badge">ABOUT</div>
+                <h2 class="section-title">About SubFlow</h2>
+                <article class="about-article">
+                    <p>
+                        SubFlow was developed as a capstone project for the Full Stack Development Laboratory
+                        course (23IT721). It showcases modern HTML5 semantic structure, responsive CSS layout,
+                        and JavaScript-driven interactivity — all deployed on Vercel with version control via GitHub.
+                    </p>
+                    <p>
+                        The platform targets IT managers, finance teams, and startup founders who need a single
+                        source of truth for all subscription-based expenditures. With automated renewal alerts,
+                        cost forecasting, and SaaS auditing, SubFlow transforms how organizations manage their
+                        recurring software costs.
+                    </p>
+                </article>
+            </section>
+
+            <!-- =============================================================
+                 Services Section using <section> and <aside>
+                 REQUIREMENT 19: Uses <aside> semantic element
+            ============================================================== -->
+            <section id="services-section" class="content-section">
+                <div class="section-badge">SERVICES</div>
+                <h2 class="section-title">Our Core Services</h2>
+                <div class="services-layout">
+                    <article class="services-main">
+                        <div class="service-card">
+                            <div class="service-icon orange"><i class="ph ph-chart-line-up"></i></div>
+                            <h3>Spend Analytics</h3>
+                            <p>Track and visualize all SaaS expenditures across departments with real-time interactive dashboards.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon green"><i class="ph ph-shield-check"></i></div>
+                            <h3>License Auditing</h3>
+                            <p>Automatically flag unused seats, duplicate subscriptions, and idle licenses to reclaim budget.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon purple"><i class="ph ph-bell-ringing"></i></div>
+                            <h3>Renewal Alerts</h3>
+                            <p>Get notified via email, Slack, or SMS 7 days before any contract auto-renews.</p>
+                        </div>
+                    </article>
+                    <!-- REQUIREMENT 19: <aside> element -->
+                    <aside class="services-aside">
+                        <div class="aside-card">
+                            <h4><i class="ph ph-lightbulb"></i> Quick Tip</h4>
+                            <p>Organizations using SubFlow save an average of <strong>23%</strong> on their annual SaaS spend through automated license auditing.</p>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 REQUIREMENT 5–17: Registration Form Section
+                 Professional form with advanced HTML5 elements
+            ============================================================== -->
+            <section id="registration" class="content-section form-section">
+                <div class="section-badge">REGISTRATION</div>
+                <h2 class="section-title">Create Your Account</h2>
+                <p class="section-desc">Fill in the form below to register as a SubFlow administrator. All fields marked with <span class="required-indicator">*</span> are required.</p>
+
+                <form id="registrationForm" class="registration-form" novalidate>
+
+                    <!-- REQUIREMENT 6: Name Field (text input with placeholder and required) -->
+                    <div class="form-group">
+                        <label for="fullName">Full Name <span class="required-indicator">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="ph ph-user input-icon"></i>
+                            <input type="text" id="fullName" name="fullName"
+                                   placeholder="Enter your full name"
+                                   required
+                                   minlength="2"
+                                   maxlength="100"
+                                   autocomplete="name">
+                        </div>
+                        <div class="field-error" id="fullNameError">Please enter your full name (at least 2 characters).</div>
+                    </div>
+
+                    <!-- REQUIREMENT 7: Email Field (HTML5 email input type) -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required-indicator">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-envelope input-icon"></i>
+                                <input type="email" id="email" name="email"
+                                       placeholder="you@example.com"
+                                       required
+                                       autocomplete="email">
+                            </div>
+                            <div class="field-error" id="emailError">Please enter a valid email address.</div>
+                        </div>
+
+                        <!-- REQUIREMENT 8: Phone Number (HTML5 tel input with pattern) -->
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required-indicator">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-phone input-icon"></i>
+                                <input type="tel" id="phone" name="phone"
+                                       placeholder="+91 98765 43210"
+                                       required
+                                       pattern="[\+]?[0-9\s\-]{7,15}"
+                                       title="Enter a valid phone number (7-15 digits, optional + prefix)">
+                            </div>
+                            <div class="field-error" id="phoneError">Enter a valid phone number (7-15 digits).</div>
+                        </div>
+                    </div>
+
+                    <!-- REQUIREMENT 9: Date of Birth (HTML5 date input) -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dob">Date of Birth <span class="required-indicator">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-calendar input-icon"></i>
+                                <input type="date" id="dob" name="dob"
+                                       required
+                                       max="2010-12-31"
+                                       min="1950-01-01">
+                            </div>
+                            <div class="field-error" id="dobError">Please select a valid date of birth.</div>
+                        </div>
+
+                        <!-- REQUIREMENT 10: Preferred Time (HTML5 time input) -->
+                        <div class="form-group">
+                            <label for="preferredTime">Preferred Meeting Time <span class="required-indicator">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-clock input-icon"></i>
+                                <input type="time" id="preferredTime" name="preferredTime"
+                                       required
+                                       min="09:00"
+                                       max="18:00">
+                            </div>
+                            <div class="field-error" id="preferredTimeError">Select a time between 9:00 AM and 6:00 PM.</div>
+                        </div>
+                    </div>
+
+                    <!-- REQUIREMENT 11: Age (HTML5 number input with min/max) -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">Age <span class="required-indicator">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-hash input-icon"></i>
+                                <input type="number" id="age" name="age"
+                                       placeholder="e.g. 25"
+                                       required
+                                       min="16"
+                                       max="100"
+                                       step="1">
+                            </div>
+                            <div class="field-error" id="ageError">Age must be between 16 and 100.</div>
+                        </div>
+
+                        <!-- REQUIREMENT 15: Gender (Radio Buttons) -->
+                        <div class="form-group">
+                            <label>Gender <span class="required-indicator">*</span></label>
+                            <div class="radio-group" id="genderGroup">
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="male" required>
+                                    <span class="radio-custom"></span>
+                                    <span>Male</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="female">
+                                    <span class="radio-custom"></span>
+                                    <span>Female</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="other">
+                                    <span class="radio-custom"></span>
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                            <div class="field-error" id="genderError">Please select your gender.</div>
+                        </div>
+                    </div>
+
+                    <!-- REQUIREMENT 14: Address (Multiline <textarea>) -->
+                    <div class="form-group">
+                        <label for="address">Address <span class="required-indicator">*</span></label>
+                        <div class="input-wrapper textarea-wrapper">
+                            <i class="ph ph-map-pin input-icon"></i>
+                            <textarea id="address" name="address"
+                                      rows="3"
+                                      placeholder="Enter your full postal address"
+                                      required
+                                      minlength="10"
+                                      maxlength="300"></textarea>
+                        </div>
+                        <div class="field-error" id="addressError">Please provide your address (at least 10 characters).</div>
+                    </div>
+
+                    <!-- REQUIREMENT 16: Skills/Interests (Checkboxes) -->
+                    <div class="form-group">
+                        <label>Skills / Interests <span class="required-indicator">*</span></label>
+                        <div class="checkbox-grid" id="skillsGroup">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills" value="saas-management">
+                                <span class="checkbox-custom"></span>
+                                <span>SaaS Management</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills" value="cost-optimization">
+                                <span class="checkbox-custom"></span>
+                                <span>Cost Optimization</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills" value="financial-analytics">
+                                <span class="checkbox-custom"></span>
+                                <span>Financial Analytics</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills" value="api-integration">
+                                <span class="checkbox-custom"></span>
+                                <span>API Integration</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills" value="cloud-infrastructure">
+                                <span class="checkbox-custom"></span>
+                                <span>Cloud Infrastructure</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills" value="team-management">
+                                <span class="checkbox-custom"></span>
+                                <span>Team Management</span>
+                            </label>
+                        </div>
+                        <div class="field-error" id="skillsError">Please select at least one skill or interest.</div>
+                    </div>
+
+                    <!-- REQUIREMENT 12 & 13: Editable Area with contenteditable + spellcheck -->
+                    <div class="form-group">
+                        <label for="editableComments">Additional Comments / Notes</label>
+                        <p class="field-hint">
+                            <i class="ph ph-pencil-simple"></i>
+                            This field uses <code>contenteditable</code> and <code>spellcheck</code> HTML5 attributes. Click to type freely.
+                        </p>
+                        <div class="editable-area"
+                             id="editableComments"
+                             contenteditable="true"
+                             spellcheck="true"
+                             role="textbox"
+                             aria-label="Additional comments area with spell check enabled"
+                             data-placeholder="Type your additional comments or notes here. Spellcheck is enabled..."></div>
+                    </div>
+
+                    <!-- REQUIREMENT 17: Form Controls (Submit, Reset, Cancel) -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="ph ph-paper-plane-tilt"></i> Submit Registration
+                        </button>
+                        <button type="reset" class="btn btn-secondary" id="resetBtn">
+                            <i class="ph ph-arrow-counter-clockwise"></i> Reset
+                        </button>
+                        <button type="button" class="btn btn-ghost" id="cancelBtn">
+                            <i class="ph ph-x"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- =============================================================
+                 Contact Section
+            ============================================================== -->
+            <section id="contact-section" class="content-section">
+                <div class="section-badge">CONTACT</div>
+                <h2 class="section-title">Get in Touch</h2>
+                <div class="contact-grid">
+                    <article class="contact-card">
+                        <div class="contact-icon"><i class="ph ph-envelope-simple"></i></div>
+                        <h3>Email</h3>
+                        <a href="mailto:support@subflow.io">support@subflow.io</a>
+                    </article>
+                    <article class="contact-card">
+                        <div class="contact-icon"><i class="ph ph-phone-call"></i></div>
+                        <h3>Phone</h3>
+                        <a href="tel:+18005550199">+1 (800) 555-0199</a>
+                    </article>
+                    <article class="contact-card">
+                        <div class="contact-icon"><i class="ph ph-map-pin"></i></div>
+                        <h3>Address</h3>
+                        <p>Suite 721, Full Stack Tower, Silicon Valley, CA 94025</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 Help Section
+            ============================================================== -->
+            <section id="help-section" class="content-section">
+                <div class="section-badge">HELP</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>How do I track my subscriptions after registering?</summary>
+                        <p>Once you've submitted the registration form, you'll gain access to the SubFlow Dashboard where you can add, edit, and monitor all your active subscriptions in real time.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is my personal data secure?</summary>
+                        <p>Absolutely. SubFlow uses industry-standard encryption and role-based access control to ensure your data is protected at all times.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Can I modify my registration details later?</summary>
+                        <p>Yes. After logging in, navigate to the Settings page where you can update your profile information, change your preferred meeting time, or modify your skills and interests.</p>
+                    </details>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- =============================================================
+             REQUIREMENT 18 & 19: HTML5 <footer> with copyright, student name,
+             institution, and contact details. Uses semantic <footer> element.
+        ============================================================== -->
+        <footer class="site-footer" id="site-footer">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <img src="subflow_logo.png" alt="SubFlow Logo" class="footer-logo">
+                    <span class="footer-app-name">SubFlow</span>
+                </div>
+                <div class="footer-info">
+                    <p class="footer-copyright">&copy; 2026 SubFlow. All rights reserved.</p>
+                    <p class="footer-student">Designed by <strong>Alex Carter</strong> | Reg No: 23IT701</p>
+                    <p class="footer-institution">Department of Information Technology, Full Stack University</p>
+                </div>
+                <div class="footer-contact">
+                    <a href="mailto:support@subflow.io"><i class="ph ph-envelope"></i> support@subflow.io</a>
+                    <a href="tel:+18005550199"><i class="ph ph-phone"></i> +1 (800) 555-0199</a>
+                </div>
+            </div>
+        </footer>
+
+    </div><!-- end .page-wrapper -->
+
+    <!-- Toast notification element -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-icon" id="toastIcon"><i class="ph ph-check-circle"></i></div>
+        <div class="toast-content">
+            <h4 class="toast-title" id="toastTitle">Success</h4>
+            <p class="toast-msg" id="toastMsg">Action completed successfully.</p>
+        </div>
+    </div>
+
+    <!-- Back to Top button -->
+    <button class="scroll-top-btn hidden" id="scrollTopBtn" aria-label="Back to Top">
+        <i class="ph ph-arrow-up"></i>
+    </button>
+
+    <script src="form_app.js"></script>
+</body>
+</html>
