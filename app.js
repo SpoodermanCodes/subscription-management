@@ -576,4 +576,243 @@ document.addEventListener('DOMContentLoaded', () => {
             toast.classList.add('hidden');
         }, 4500);
     }
+
+
+    // ==========================================================================
+    // ASSIGNMENT 4: DRAG AND DROP FUNCTIONALITY
+    // Uses HTML5 Drag and Drop API: dragstart, dragover, drop events
+    // ==========================================================================
+
+    const dndSourceGrid = document.getElementById('dndSourceGrid');
+    const dndDropZone = document.getElementById('dndDropZone');
+    const dndPlaceholder = document.getElementById('dndPlaceholder');
+    const dndResetBtn = document.getElementById('dndResetBtn');
+
+    if (dndSourceGrid && dndDropZone) {
+        let draggedItem = null;
+
+        // Store original HTML for reset
+        const originalSourceHTML = dndSourceGrid.innerHTML;
+
+        // REQUIREMENT 7: dragstart event
+        dndSourceGrid.addEventListener('dragstart', (e) => {
+            const item = e.target.closest('.dnd-item');
+            if (!item) return;
+            draggedItem = item;
+            item.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', item.dataset.id);
+            e.dataTransfer.effectAllowed = 'move';
+        });
+
+        dndSourceGrid.addEventListener('dragend', (e) => {
+            const item = e.target.closest('.dnd-item');
+            if (item) item.classList.remove('dragging');
+        });
+
+        // REQUIREMENT 7: dragover event (must preventDefault to allow drop)
+        dndDropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            dndDropZone.classList.add('drag-over');
+        });
+
+        dndDropZone.addEventListener('dragleave', (e) => {
+            // Only remove class if we actually left the drop zone
+            if (!dndDropZone.contains(e.relatedTarget)) {
+                dndDropZone.classList.remove('drag-over');
+            }
+        });
+
+        // REQUIREMENT 7: drop event
+        dndDropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dndDropZone.classList.remove('drag-over');
+
+            if (draggedItem) {
+                // Clone the item and make it non-draggable in the drop zone
+                const clone = draggedItem.cloneNode(true);
+                clone.removeAttribute('draggable');
+                clone.classList.remove('dragging');
+
+                // Remove the original from source
+                draggedItem.remove();
+
+                // Add to drop zone
+                dndDropZone.appendChild(clone);
+
+                // Hide placeholder if items exist
+                if (dndPlaceholder) {
+                    dndPlaceholder.classList.add('hidden');
+                }
+
+                showToast('Dropped!', `"${clone.querySelector('span').textContent}" moved to target zone.`, 'success');
+                draggedItem = null;
+            }
+        });
+
+        // Reset button – restore all items back to source
+        if (dndResetBtn) {
+            dndResetBtn.addEventListener('click', () => {
+                // Restore source grid
+                dndSourceGrid.innerHTML = originalSourceHTML;
+
+                // Clear dropped items from zone (keep placeholder)
+                const droppedItems = dndDropZone.querySelectorAll('.dnd-item');
+                droppedItems.forEach(item => item.remove());
+
+                // Show placeholder
+                if (dndPlaceholder) {
+                    dndPlaceholder.classList.remove('hidden');
+                }
+
+                showToast('Reset', 'All items have been restored to the source area.', 'info');
+            });
+        }
+    }
+
+
+    // ==========================================================================
+    // ASSIGNMENT 4: WEB STORAGE FUNCTIONALITY
+    // REQUIREMENT 8: localStorage, REQUIREMENT 9: sessionStorage,
+    // REQUIREMENT 10: Retrieve data, REQUIREMENT 11: Clear data
+    // ==========================================================================
+
+    const storageKeyInput = document.getElementById('storageKey');
+    const storageValueInput = document.getElementById('storageValue');
+    const saveLocalBtn = document.getElementById('saveLocalBtn');
+    const saveSessionBtn = document.getElementById('saveSessionBtn');
+    const retrieveDataBtn = document.getElementById('retrieveDataBtn');
+    const clearLocalBtn = document.getElementById('clearLocalBtn');
+    const clearSessionBtn = document.getElementById('clearSessionBtn');
+    const storageDisplay = document.getElementById('storageDisplay');
+    const localStorageBody = document.getElementById('localStorageBody');
+    const sessionStorageBody = document.getElementById('sessionStorageBody');
+
+    if (saveLocalBtn && saveSessionBtn) {
+
+        // Helper: validate key/value inputs
+        function validateStorageInputs() {
+            const key = storageKeyInput.value.trim();
+            const value = storageValueInput.value.trim();
+            if (!key || !value) {
+                showToast('Missing Data', 'Please enter both a key and a value.', 'error');
+                return null;
+            }
+            return { key, value };
+        }
+
+        // REQUIREMENT 8: Save to localStorage
+        saveLocalBtn.addEventListener('click', () => {
+            const data = validateStorageInputs();
+            if (!data) return;
+            localStorage.setItem(data.key, data.value);
+            showToast('Saved to Local Storage', `Key "${data.key}" saved permanently.`, 'success');
+            storageKeyInput.value = '';
+            storageValueInput.value = '';
+            if (!storageDisplay.classList.contains('hidden')) {
+                renderStorageData();
+            }
+        });
+
+        // REQUIREMENT 9: Save to sessionStorage
+        saveSessionBtn.addEventListener('click', () => {
+            const data = validateStorageInputs();
+            if (!data) return;
+            sessionStorage.setItem(data.key, data.value);
+            showToast('Saved to Session Storage', `Key "${data.key}" saved for this session.`, 'info');
+            storageKeyInput.value = '';
+            storageValueInput.value = '';
+            if (!storageDisplay.classList.contains('hidden')) {
+                renderStorageData();
+            }
+        });
+
+        // REQUIREMENT 10: Retrieve and display stored data
+        retrieveDataBtn.addEventListener('click', () => {
+            storageDisplay.classList.remove('hidden');
+            renderStorageData();
+            showToast('Data Retrieved', 'Displaying all stored data below.', 'info');
+        });
+
+        // REQUIREMENT 11: Clear localStorage
+        clearLocalBtn.addEventListener('click', () => {
+            if (confirm('Clear all data from Local Storage?')) {
+                // Only clear user-created keys (preserve theme preference)
+                const themeVal = localStorage.getItem('subflow-theme');
+                localStorage.clear();
+                if (themeVal) localStorage.setItem('subflow-theme', themeVal);
+                showToast('Local Storage Cleared', 'All local storage data has been removed.', 'info');
+                if (!storageDisplay.classList.contains('hidden')) {
+                    renderStorageData();
+                }
+            }
+        });
+
+        // REQUIREMENT 11: Clear sessionStorage
+        clearSessionBtn.addEventListener('click', () => {
+            if (confirm('Clear all data from Session Storage?')) {
+                sessionStorage.clear();
+                showToast('Session Storage Cleared', 'All session storage data has been removed.', 'info');
+                if (!storageDisplay.classList.contains('hidden')) {
+                    renderStorageData();
+                }
+            }
+        });
+
+        // Render all stored data into tables
+        function renderStorageData() {
+            // Render localStorage
+            renderTable(localStorage, localStorageBody, 'local');
+            // Render sessionStorage
+            renderTable(sessionStorage, sessionStorageBody, 'session');
+        }
+
+        function renderTable(storage, tbody, type) {
+            tbody.innerHTML = '';
+            const keys = [];
+            for (let i = 0; i < storage.length; i++) {
+                const key = storage.key(i);
+                // Skip the theme preference key for cleaner display
+                if (type === 'local' && key === 'subflow-theme') continue;
+                keys.push(key);
+            }
+
+            if (keys.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="empty-row">No data stored</td></tr>';
+                return;
+            }
+
+            keys.forEach(key => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="badge-mono">${escapeHTML(key)}</span></td>
+                    <td>${escapeHTML(storage.getItem(key))}</td>
+                    <td><button class="delete-key-btn" data-type="${type}" data-key="${escapeHTML(key)}"><i class="ph ph-trash"></i> Delete</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Attach delete handlers
+            tbody.querySelectorAll('.delete-key-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const keyToDelete = btn.dataset.key;
+                    const storageType = btn.dataset.type;
+                    if (storageType === 'local') {
+                        localStorage.removeItem(keyToDelete);
+                    } else {
+                        sessionStorage.removeItem(keyToDelete);
+                    }
+                    showToast('Deleted', `Key "${keyToDelete}" removed.`, 'info');
+                    renderStorageData();
+                });
+            });
+        }
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+    }
+
 });

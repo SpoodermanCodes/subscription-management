@@ -979,19 +979,71 @@ body {
 }
 
 .footer-content {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    gap: 1.5rem;
     font-size: 0.75rem;
     color: var(--text-muted);
-    flex-wrap: wrap;
+}
+
+.footer-brand-block {
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
+}
+
+.footer-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.footer-app-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+
+.footer-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
 .footer-designed {
     font-size: 0.75rem;
     color: var(--text-muted);
     font-weight: 600;
+}
+
+.footer-institution {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.footer-contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-align: right;
+}
+
+.footer-contact-block a,
+.footer-address {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.72rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    justify-content: flex-end;
+}
+
+.footer-contact-block a:hover {
+    color: var(--primary);
 }
 
 .footer-links {
@@ -1134,6 +1186,16 @@ body {
         flex-direction: column;
         gap: 0.75rem;
         text-align: center;
+        grid-template-columns: 1fr;
+    }
+
+    .footer-contact-block {
+        text-align: center;
+    }
+
+    .footer-contact-block a,
+    .footer-address {
+        justify-content: center;
     }
 }
 
@@ -1156,7 +1218,10 @@ body {
 #features.animate-slide-in { animation-delay: 0.35s; }
 #services.animate-slide-in { animation-delay: 0.4s; }
 #modules.animate-slide-in { animation-delay: 0.45s; }
-#contact.animate-slide-in { animation-delay: 0.5s; }
+#drag-drop.animate-slide-in { animation-delay: 0.5s; }
+#storage.animate-slide-in { animation-delay: 0.55s; }
+#contact.animate-slide-in { animation-delay: 0.6s; }
+#help.animate-slide-in { animation-delay: 0.65s; }
 
 @keyframes slideInUp {
     to {
@@ -1681,3 +1746,413 @@ body {
     transform: translateY(-2px);
 }
 
+
+/* ==========================================================================
+   ASSIGNMENT 4: DRAG AND DROP SECTION
+   ========================================================================== */
+
+.dnd-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.dnd-area-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.dnd-area-title i { color: var(--primary); }
+
+.dnd-source-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+}
+
+.dnd-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0.75rem;
+    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    cursor: grab;
+    transition: all 0.25s ease;
+    user-select: none;
+    box-shadow: var(--shadow-sm);
+}
+.dnd-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
+}
+.dnd-item:active { cursor: grabbing; }
+.dnd-item.dragging {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+.dnd-item-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.dnd-item span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.dnd-drag-image {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.dnd-image-item {
+    border-style: dashed;
+}
+
+.dnd-drop-zone {
+    min-height: 240px;
+    border: 2px dashed var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-card);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.dnd-drop-zone.drag-over {
+    border-color: var(--primary);
+    background: var(--primary-glow);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+.dnd-drop-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.dnd-drop-placeholder i { font-size: 2.5rem; margin-bottom: 0.5rem; display: block; }
+.dnd-drop-placeholder p { font-size: 0.85rem; font-weight: 500; }
+.dnd-drop-placeholder.hidden { opacity: 0; }
+
+.dnd-drop-zone .dnd-item {
+    cursor: default;
+    animation: dropBounce 0.4s ease;
+}
+
+@keyframes dropBounce {
+    0%   { transform: scale(0.5); opacity: 0; }
+    60%  { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.dnd-reset-btn {
+    margin-top: 0.75rem;
+    width: 100%;
+}
+
+.section-desc code {
+    background: var(--bg-card);
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    border: 1px solid var(--border-color);
+    font-family: 'Courier New', monospace;
+}
+
+
+/* ==========================================================================
+   ASSIGNMENT 4: WEB STORAGE SECTION
+   ========================================================================== */
+
+.storage-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.storage-input-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.storage-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.storage-card-title i { color: var(--primary); }
+
+.storage-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.storage-field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+}
+
+.storage-field input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-app);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.88rem;
+    outline: none;
+    transition: all 0.25s ease;
+}
+.storage-field input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.storage-btn-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+.storage-btn-row .btn { flex: 1; min-width: 140px; justify-content: center; }
+
+/* Storage Aside */
+.storage-aside {
+    display: flex;
+    align-items: flex-start;
+}
+
+.storage-info-card {
+    background: var(--primary-glow);
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 100%;
+}
+.storage-info-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.storage-info-item {
+    margin-bottom: 0.75rem;
+}
+.storage-info-item:last-child { margin-bottom: 0; }
+.storage-info-item strong {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.2rem;
+}
+.storage-info-item p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Storage Controls */
+.storage-controls {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+.btn-ghost:hover {
+    border-color: var(--error);
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.06);
+}
+
+/* Storage Display */
+.storage-display {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    animation: fadeSlideDown 0.4s ease;
+}
+.storage-display.hidden { display: none; }
+
+@keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.storage-table-section h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.storage-table-section h4 i { color: var(--primary); }
+
+.storage-table .empty-row {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 1.5rem;
+}
+
+.storage-table .delete-key-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: inherit;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.storage-table .delete-key-btn:hover {
+    border-color: var(--error);
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+/* Responsive for Drag & Drop and Storage */
+@media (max-width: 768px) {
+    .dnd-layout {
+        grid-template-columns: 1fr;
+    }
+    .storage-layout {
+        grid-template-columns: 1fr;
+    }
+    .storage-display {
+        grid-template-columns: 1fr;
+    }
+    .storage-controls {
+        flex-direction: column;
+    }
+}
+
+
+/* ==========================================================================
+   ASSIGNMENT 4: HELP / FAQ SECTION
+   ========================================================================== */
+
+.intro-article,
+.about-article,
+.help-article {
+    margin-bottom: 0.5rem;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.faq-item {
+    background: var(--bg-app);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--primary);
+}
+
+.faq-item summary {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.faq-item[open] summary::after {
+    content: '−';
+}
+
+.faq-item p {
+    margin-top: 0.65rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    padding-right: 1.5rem;
+}
+
+.faq-item a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.faq-item a:hover {
+    text-decoration: underline;
+}
