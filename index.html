@@ -60,7 +60,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#features-services" class="nav-link" id="nav-services">
+                        <a href="#features" class="nav-link" id="nav-features">
+                            <i class="ph ph-sparkles"></i><span>Features</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#services" class="nav-link" id="nav-services">
                             <i class="ph ph-gear"></i><span>Services</span>
                         </a>
                     </li>
@@ -70,12 +75,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#about" class="nav-link" id="nav-about">
-                            <i class="ph ph-info"></i><span>About</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#register" class="nav-link" id="nav-contact">
+                        <a href="#contact" class="nav-link" id="nav-contact">
                             <i class="ph ph-envelope"></i><span>Contact</span>
                         </a>
                     </li>
@@ -114,7 +114,7 @@
                      REQUIREMENT 3: Welcome Section
                      (Welcome Message, Project Description, Vision, Mission)
                 ====================================================== -->
-                <section id="welcome" class="content-section card-gradient">
+                <section id="welcome" class="content-section card-gradient animate-slide-in">
                     <div class="section-badge">WELCOME</div>
                     <h2 class="welcome-title">Welcome to SubFlow</h2>
                     <p class="welcome-lead">
@@ -123,16 +123,20 @@
                         Built as part of the 23IT721 Full Stack Development Laboratory, this application demonstrates
                         a complete, deployment-ready web interface.
                     </p>
+                    <div class="typing-container">
+                        <span class="typing-prefix">Dashboard Status: </span>
+                        <span id="typing-effect" class="typing-text"></span><span class="typing-cursor">|</span>
+                    </div>
 
                     <div class="mission-vision-grid">
-                        <div class="mv-card">
-                            <div class="mv-icon"><i class="ph ph-eye"></i></div>
+                        <div class="mv-card hover-zoom">
+                            <div class="mv-icon rotate-hover"><i class="ph ph-eye"></i></div>
                             <h3>Our Vision</h3>
                             <p>To eliminate wasted SaaS spend globally, enabling teams and businesses to gain
                             absolute clarity, control, and efficiency over their recurring digital investments.</p>
                         </div>
-                        <div class="mv-card">
-                            <div class="mv-icon"><i class="ph ph-target"></i></div>
+                        <div class="mv-card hover-zoom">
+                            <div class="mv-icon rotate-hover"><i class="ph ph-target"></i></div>
                             <h3>Our Mission</h3>
                             <p>Delivering an intuitive, smart tracking system that audits subscriptions, automates
                             invoicing, sends renewal reminders, and highlights cost-saving opportunities.</p>
@@ -141,9 +145,68 @@
                 </section>
 
                 <!-- =====================================================
+                     REQUIREMENT 8: Image/Banner Slider
+                     (Automatic and Manual slider using CSS + JS)
+                ====================================================== -->
+                <section class="slider-section animate-slide-in">
+                    <div class="section-badge">ANNOUNCEMENTS</div>
+                    <div class="slider-container">
+                        <div class="slider-wrapper" id="sliderWrapper">
+                            <!-- Slide 1 -->
+                            <div class="slide active" style="background: linear-gradient(135deg, #1e1b4b, #311042);">
+                                <div class="slide-content">
+                                    <span class="slide-tag">ANALYTICS</span>
+                                    <h3 class="slide-title">Real-Time Spending Analytics</h3>
+                                    <p class="slide-desc">Track where your SaaS dollars are going with detailed department level breakdowns and anomaly detection.</p>
+                                    <a href="#dashboard" class="btn btn-primary btn-slide">Explore Analytics</a>
+                                </div>
+                                <div class="slide-illustration">
+                                    <i class="ph ph-chart-line-up"></i>
+                                </div>
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="slide" style="background: linear-gradient(135deg, #064e3b, #0f172a);">
+                                <div class="slide-content">
+                                    <span class="slide-tag">AUTOMATION</span>
+                                    <h3 class="slide-title">Automated Invoice Reconcile</h3>
+                                    <p class="slide-desc">SubFlow auto-reconciles transactions directly with bank feeds, Stripe, and PayPal billing APIs.</p>
+                                    <a href="#features" class="btn btn-primary btn-slide">View Features</a>
+                                </div>
+                                <div class="slide-illustration">
+                                    <i class="ph ph-tree-structure"></i>
+                                </div>
+                            </div>
+                            <!-- Slide 3 -->
+                            <div class="slide" style="background: linear-gradient(135deg, #7c2d12, #111827);">
+                                <div class="slide-content">
+                                    <span class="slide-tag">OPTIMIZATION</span>
+                                    <h3 class="slide-title">Smart SaaS Auditing</h3>
+                                    <p class="slide-desc">Uncover up to 30% spend waste by automatically identifying unused user seats and duplicate licenses.</p>
+                                    <a href="#services" class="btn btn-primary btn-slide">View Services</a>
+                                </div>
+                                <div class="slide-illustration">
+                                    <i class="ph ph-shield-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Controls -->
+                        <button class="slider-btn prev" id="prevSlide" aria-label="Previous Slide"><i class="ph ph-caret-left"></i></button>
+                        <button class="slider-btn next" id="nextSlide" aria-label="Next Slide"><i class="ph ph-caret-right"></i></button>
+                        
+                        <!-- Indicators -->
+                        <div class="slider-indicators" id="sliderIndicators">
+                            <span class="indicator active" data-index="0"></span>
+                            <span class="indicator" data-index="1"></span>
+                            <span class="indicator" data-index="2"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================================
                      REQUIREMENT 3 (cont.): About Section
                 ====================================================== -->
-                <section id="about" class="content-section">
+                <section id="about" class="content-section animate-slide-in">
                     <div class="section-badge">ABOUT</div>
                     <h2 class="section-title">About SubFlow</h2>
                     <p class="section-desc">
@@ -160,18 +223,69 @@
                      (Total Users, Active Users, Revenue, Transactions,
                       Notifications, Pending Tasks)
                 ====================================================== -->
-                <section id="dashboard" class="content-section">
+                <section id="dashboard" class="content-section animate-slide-in">
                     <div class="section-header-row">
                         <div>
                             <div class="section-badge">OVERVIEW</div>
                             <h2 class="section-title">Dashboard Statistics</h2>
                         </div>
-                        <div class="date-badge" id="currentDate">June 2026</div>
+                        <div class="header-actions">
+                            <!-- Sync Button -->
+                            <button class="btn btn-secondary sync-btn" id="syncStatsBtn" title="Sync data and update statistics">
+                                <i class="ph ph-arrows-counter-clockwise"></i><span>Sync Stats</span>
+                            </button>
+                            
+                            <!-- Notification Bell & Panel -->
+                            <div class="notification-bell-container">
+                                <button class="bell-btn" id="bellBtn" aria-label="Open Notifications">
+                                    <i class="ph ph-bell"></i>
+                                    <span class="bell-badge" id="bellBadge">3</span>
+                                </button>
+                                <div class="notification-dropdown hidden" id="notificationDropdown">
+                                    <div class="dropdown-header">
+                                        <h4>Notifications</h4>
+                                        <button class="clear-all-btn" id="clearNotifications">Clear all</button>
+                                    </div>
+                                    <div class="notification-list" id="notificationList">
+                                        <div class="notification-item unread">
+                                            <div class="noti-icon orange"><i class="ph ph-warning"></i></div>
+                                            <div class="noti-body">
+                                                <p class="noti-text">Adobe Creative Cloud subscription renewal is due in 3 days.</p>
+                                                <span class="noti-time">10m ago</span>
+                                            </div>
+                                            <button class="noti-read-btn" aria-label="Mark as read"><i class="ph ph-circle"></i></button>
+                                        </div>
+                                        <div class="notification-item unread">
+                                            <div class="noti-icon green"><i class="ph ph-check-square"></i></div>
+                                            <div class="noti-body">
+                                                <p class="noti-text">Saved $120.00 this month by cancelling 3 inactive Zoom licenses.</p>
+                                                <span class="noti-time">2 hours ago</span>
+                                            </div>
+                                            <button class="noti-read-btn" aria-label="Mark as read"><i class="ph ph-circle"></i></button>
+                                        </div>
+                                        <div class="notification-item unread">
+                                            <div class="noti-icon purple"><i class="ph ph-key"></i></div>
+                                            <div class="noti-body">
+                                                <p class="noti-text">New Stripe integration successfully linked to finance gateway.</p>
+                                                <span class="noti-time">1 day ago</span>
+                                            </div>
+                                            <button class="noti-read-btn" aria-label="Mark as read"><i class="ph ph-circle"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-footer">
+                                        <button id="closeNotificationDropdown" class="btn btn-secondary btn-xs">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Clock / Date Display -->
+                            <div class="date-badge" id="currentDate">Loading Date & Time...</div>
+                        </div>
                     </div>
 
                     <div class="stats-grid">
                         <!-- Total Users -->
-                        <div class="stat-card">
+                        <div class="stat-card hover-zoom">
                             <div class="stat-header">
                                 <span class="stat-label">Total Users</span>
                                 <div class="stat-icon-wrapper orange"><i class="ph ph-users"></i></div>
@@ -184,7 +298,7 @@
                         </div>
 
                         <!-- Active Users -->
-                        <div class="stat-card">
+                        <div class="stat-card hover-zoom">
                             <div class="stat-header">
                                 <span class="stat-label">Active Users</span>
                                 <div class="stat-icon-wrapper green"><i class="ph ph-user-check"></i></div>
@@ -197,7 +311,7 @@
                         </div>
 
                         <!-- Revenue -->
-                        <div class="stat-card">
+                        <div class="stat-card hover-zoom">
                             <div class="stat-header">
                                 <span class="stat-label">Revenue</span>
                                 <div class="stat-icon-wrapper gold"><i class="ph ph-currency-dollar"></i></div>
@@ -210,7 +324,7 @@
                         </div>
 
                         <!-- Transactions -->
-                        <div class="stat-card">
+                        <div class="stat-card hover-zoom">
                             <div class="stat-header">
                                 <span class="stat-label">Transactions</span>
                                 <div class="stat-icon-wrapper purple"><i class="ph ph-receipt"></i></div>
@@ -223,20 +337,20 @@
                         </div>
 
                         <!-- Notifications -->
-                        <div class="stat-card">
+                        <div class="stat-card hover-zoom" id="notiStatCard">
                             <div class="stat-header">
                                 <span class="stat-label">Notifications</span>
                                 <div class="stat-icon-wrapper coral"><i class="ph ph-bell"></i></div>
                             </div>
-                            <div class="stat-value" id="stat-notifications">7</div>
+                            <div class="stat-value" id="stat-notifications">3</div>
                             <div class="stat-footer">
-                                <span class="trend-warning"><i class="ph ph-warning-circle"></i> 3 Critical</span>
-                                <span class="trend-label">requires action</span>
+                                <span class="trend-warning"><i class="ph ph-warning-circle"></i> 1 Critical</span>
+                                <span class="trend-label">click to toggle panel</span>
                             </div>
                         </div>
 
                         <!-- Pending Tasks -->
-                        <div class="stat-card">
+                        <div class="stat-card hover-zoom">
                             <div class="stat-header">
                                 <span class="stat-label">Pending Tasks</span>
                                 <div class="stat-icon-wrapper teal"><i class="ph ph-check-square"></i></div>
@@ -247,99 +361,118 @@
                                 <span class="trend-label">renewals &amp; audits</span>
                             </div>
                         </div>
+                        
+                        <!-- Optimization Score with Progress Bar -->
+                        <div class="stat-card hover-zoom progress-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Audit Score</span>
+                                <div class="stat-icon-wrapper progress-blue"><i class="ph ph-gauge"></i></div>
+                            </div>
+                            <div class="stat-value" id="stat-audit-score">0%</div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="auditProgressBar" style="width: 0%"></div>
+                            </div>
+                            <div class="stat-footer">
+                                <span class="trend-info"><i class="ph ph-sparkles"></i> Goal: 95%</span>
+                                <span class="trend-label">optimized spend</span>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
                 <!-- =====================================================
                      REQUIREMENT 5: Features Section using <ul> and <li>
-                     REQUIREMENT 6: Services Section using <ol> and <li>
                 ====================================================== -->
-                <section id="features-services" class="content-section grid-2-col">
-
-                    <!-- Features using <ul> -->
-                    <div class="feature-card">
-                        <div class="section-badge">FEATURES</div>
-                        <h2 class="card-title">Key Platform Features</h2>
-                        <p class="card-desc">Industry-leading features to handle subscription models of all scales:</p>
-                        <ul class="features-list">
-                            <li>
-                                <div class="list-bullet"><i class="ph ph-check"></i></div>
-                                <div class="list-text">
-                                    <strong>Automated Renewal Warnings:</strong> Get notified via email 7 days before any license renews.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-bullet"><i class="ph ph-check"></i></div>
-                                <div class="list-text">
-                                    <strong>Multi-Currency Support:</strong> Convert all global subscriptions into a single currency for unified budgeting.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-bullet"><i class="ph ph-check"></i></div>
-                                <div class="list-text">
-                                    <strong>Granular Spending Analytics:</strong> Break down costs by department, user, category, or payment source.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-bullet"><i class="ph ph-check"></i></div>
-                                <div class="list-text">
-                                    <strong>License Allocation Audit:</strong> Identify inactive accounts and empty software seats automatically.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-bullet"><i class="ph ph-check"></i></div>
-                                <div class="list-text">
-                                    <strong>Role-Based Access Control:</strong> Assign admin, manager, or viewer roles to team members securely.
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Services using <ol> -->
-                    <div class="service-card">
-                        <div class="section-badge">SERVICES</div>
-                        <h2 class="card-title">Core Management Services</h2>
-                        <p class="card-desc">Specialized consulting and automated workflows to streamline your operations:</p>
-                        <ol class="services-list">
-                            <li>
-                                <div class="list-num">1</div>
-                                <div class="list-text">
-                                    <strong>Subscription Lifecycle Audit:</strong> Comprehensive review to map every active recurring bill.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-num">2</div>
-                                <div class="list-text">
-                                    <strong>SaaS Contract Negotiation:</strong> Leveraging volume data to lower costs with vendors on your behalf.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-num">3</div>
-                                <div class="list-text">
-                                    <strong>Automated Invoice Collection:</strong> Consolidating invoices into accounting tools like QuickBooks and Xero.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-num">4</div>
-                                <div class="list-text">
-                                    <strong>Enterprise SSO Integration:</strong> Sync subscription permissions directly with Okta or Azure AD.
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-num">5</div>
-                                <div class="list-text">
-                                    <strong>24/7 Priority Support:</strong> Dedicated account managers and round-the-clock technical assistance.
-                                </div>
-                            </li>
-                        </ol>
-                    </div>
+                <section id="features" class="content-section animate-slide-in">
+                    <div class="section-badge">FEATURES</div>
+                    <h2 class="section-title">Key Platform Features</h2>
+                    <p class="section-desc">Industry-leading features to handle subscription models of all scales:</p>
+                    <ul class="features-grid">
+                        <li class="feature-item hover-zoom">
+                            <div class="feature-icon orange rotate-hover"><i class="ph ph-bell-ringing"></i></div>
+                            <div class="feature-content">
+                                <h3>Automated Renewal Warnings</h3>
+                                <p>Get notified via email, Slack, or SMS 7 days before any license renews. Never be caught off guard by a surprise charge.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item hover-zoom">
+                            <div class="feature-icon green rotate-hover"><i class="ph ph-currency-circle-dollar"></i></div>
+                            <div class="feature-content">
+                                <h3>Multi-Currency Support</h3>
+                                <p>Convert all global SaaS expenditures into a single workspace currency for unified, simple team budgeting.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item hover-zoom">
+                            <div class="feature-icon gold rotate-hover"><i class="ph ph-chart-line-up"></i></div>
+                            <div class="feature-content">
+                                <h3>Granular Spend Analytics</h3>
+                                <p>Analyze monthly software bills by departments, teams, users, or parent categories in our custom interactive charts.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item hover-zoom">
+                            <div class="feature-icon purple rotate-hover"><i class="ph ph-shield-check"></i></div>
+                            <div class="feature-content">
+                                <h3>License Allocation Audit</h3>
+                                <p>Automatically verify software activity logs. Instantly flag empty developer licenses or unused seats.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item hover-zoom">
+                            <div class="feature-icon coral rotate-hover"><i class="ph ph-lock-key"></i></div>
+                            <div class="feature-content">
+                                <h3>Role-Based Access Control</h3>
+                                <p>Maintain workspace integrity. Assign secure admin, manager, or viewer roles to team members seamlessly.</p>
+                            </div>
+                        </li>
+                    </ul>
                 </section>
 
                 <!-- =====================================================
-                     REQUIREMENT 9: Application Modules Table
-                     (Module ID, Module Name, Description)
+                     REQUIREMENT 6: Services Section using <ol> and <li>
                 ====================================================== -->
-                <section id="modules" class="content-section">
+                <section id="services" class="content-section animate-slide-in">
+                    <div class="section-badge">SERVICES</div>
+                    <h2 class="section-title">Core Management Services</h2>
+                    <p class="section-desc">Specialized manual audits and automated workflows to scale your operations:</p>
+                    <ol class="services-grid">
+                        <li class="service-item hover-zoom">
+                            <div class="service-num-badge">01</div>
+                            <div class="service-content">
+                                <h3>Subscription Lifecycle Audit</h3>
+                                <p>A manual audit of your organization's entire ledger to catalog and build a source of truth for all software subscriptions.</p>
+                            </div>
+                        </li>
+                        <li class="service-item hover-zoom">
+                            <div class="service-num-badge">02</div>
+                            <div class="service-content">
+                                <h3>SaaS Contract Negotiation</h3>
+                                <p>We leverage subscription usage data to negotiate bulk renewals directly with vendors, securing optimal terms.</p>
+                            </div>
+                        </li>
+                        <li class="service-item hover-zoom">
+                            <div class="service-num-badge">03</div>
+                            <div class="service-content">
+                                <h3>Automated Invoice Collection</h3>
+                                <p>Stop wasting hours tracking receipts. Our system auto-gathers PDFs and uploads them to accounting tools.</p>
+                            </div>
+                        </li>
+                        <li class="service-item hover-zoom">
+                            <div class="service-num-badge">04</div>
+                            <div class="service-content">
+                                <h3>Enterprise SSO Integration</h3>
+                                <p>Link user licenses to single sign-on providers like Okta, Azure AD, or Google Workspace to auto-provision seats.</p>
+                            </div>
+                        </li>
+                        <li class="service-item hover-zoom">
+                            <div class="service-num-badge">05</div>
+                            <div class="service-content">
+                                <h3>24/7 Priority Support</h3>
+                                <p>Enterprise customers get a dedicated Slack channel and a customer success engineer to solve technical issues.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
+                <section id="modules" class="content-section animate-slide-in">
                     <div class="section-badge">ARCHITECTURE</div>
                     <h2 class="section-title">Application Modules</h2>
                     <p class="section-desc">SubFlow operates using five highly optimized backend and frontend modules:</p>
@@ -397,7 +530,7 @@
                      REQUIREMENT 10: Contact Information
                      (Email, Phone, Address, Social Media Links)
                 ====================================================== -->
-                <section id="register" class="content-section grid-2-col">
+                <section id="contact" class="content-section grid-2-col animate-slide-in">
 
                     <!-- Registration Form -->
                     <div class="form-card">
@@ -537,6 +670,11 @@
 
         </main>
     </div>
+
+    <!-- Floating Back to Top Button -->
+    <button class="scroll-top-btn hidden" id="scrollTopBtn" aria-label="Back to Top">
+        <i class="ph ph-arrow-up"></i>
+    </button>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast hidden">

@@ -34,12 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // DATE AND CLOCK BADGE
+    // TICKING DATE AND CLOCK BADGE (DYNAMIC TIME)
     // ==========================================================================
     const currentDateEl = document.getElementById('currentDate');
     if (currentDateEl) {
-        const options = { month: 'long', year: 'numeric', day: 'numeric' };
-        currentDateEl.textContent = new Date().toLocaleDateString('en-US', options);
+        const updateClock = () => {
+            const now = new Date();
+            const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateStr = now.toLocaleDateString('en-US', dateOptions);
+            const timeStr = now.toLocaleTimeString('en-US', timeOptions);
+            currentDateEl.innerHTML = `<i class="ph ph-calendar"></i> ${dateStr} &nbsp;&bull;&nbsp; <i class="ph ph-clock"></i> ${timeStr}`;
+        };
+        updateClock();
+        setInterval(updateClock, 1000);
     }
 
     // ==========================================================================
@@ -72,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ScrollSpy: highlight link based on scrolling position
     window.addEventListener('scroll', () => {
         let currentSectionId = '';
-        const scrollPosition = window.scrollY + 150; // Offset for header/top spacing
+        const scrollPosition = window.scrollY + 180; // Offset for header/top spacing
 
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
@@ -86,11 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 const href = link.getAttribute('href');
-                if (href === `#${currentSectionId}` || 
-                    (currentSectionId === 'welcome' && href === '#welcome') || 
-                    (currentSectionId === 'features-services' && href === '#features-services') ||
-                    (currentSectionId === 'modules' && href === '#modules') ||
-                    (currentSectionId === 'register' && href === '#register')) {
+                if (href === `#${currentSectionId}`) {
                     link.classList.add('active');
                 }
             });
@@ -107,15 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // STATS COUNT-UP ANIMATION
+    // STATS COUNT-UP ANIMATION & PROGRESS BAR
     // ==========================================================================
     const statsData = [
         { id: 'stat-total-users', target: 1482, prefix: '', suffix: '' },
         { id: 'stat-active-users', target: 1240, prefix: '', suffix: '' },
         { id: 'stat-revenue', target: 14250, prefix: '$', suffix: '' },
         { id: 'stat-transactions', target: 384, prefix: '', suffix: '' },
-        { id: 'stat-notifications', target: 7, prefix: '', suffix: '' },
-        { id: 'stat-pending-tasks', target: 5, prefix: '', suffix: '' }
+        { id: 'stat-notifications', target: 3, prefix: '', suffix: '' },
+        { id: 'stat-pending-tasks', target: 5, prefix: '', suffix: '' },
+        { id: 'stat-audit-score', target: 85, prefix: '', suffix: '%' }
     ];
 
     function animateStats() {
@@ -126,16 +131,25 @@ document.addEventListener('DOMContentLoaded', () => {
             let start = 0;
             const end = stat.target;
             const duration = 1200; // ms
-            const stepTime = Math.max(Math.floor(duration / end), 10);
+            const stepTime = Math.max(Math.floor(duration / end), 12);
             
+            // Reset and animate progress bar
+            const isAudit = stat.id === 'stat-audit-score';
+            const progressBar = document.getElementById('auditProgressBar');
+            if (isAudit && progressBar) {
+                progressBar.style.width = '0%';
+            }
+
             const timer = setInterval(() => {
-                start += Math.ceil(end / 40); // Increment step
+                start += Math.ceil(end / 30); // Increment step
                 if (start >= end) {
                     start = end;
                     clearInterval(timer);
+                    if (isAudit && progressBar) {
+                        progressBar.style.width = `${end}%`;
+                    }
                 }
                 
-                // Format with commas if large
                 const formattedNum = start.toLocaleString('en-US');
                 el.textContent = `${stat.prefix}${formattedNum}${stat.suffix}`;
             }, stepTime);
@@ -144,6 +158,266 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run stats animation on load
     animateStats();
+
+    // Stats Dynamic Synchronize (Triggered by Sync Stats action button)
+    const syncStatsBtn = document.getElementById('syncStatsBtn');
+    if (syncStatsBtn) {
+        syncStatsBtn.addEventListener('click', () => {
+            const icon = syncStatsBtn.querySelector('i');
+            if (icon) {
+                icon.style.transform = 'rotate(360deg)';
+                icon.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+            
+            // Randomly increment dashboard statistics dynamically
+            statsData[0].target = 1480 + Math.floor(Math.random() * 20); // total users
+            statsData[1].target = 1230 + Math.floor(Math.random() * 20); // active users
+            statsData[2].target = 14200 + Math.floor(Math.random() * 400); // revenue
+            statsData[3].target = 380 + Math.floor(Math.random() * 15); // transactions
+            statsData[6].target = 80 + Math.floor(Math.random() * 16); // audit score
+            
+            animateStats();
+            showToast('Sync Complete', 'Dashboard statistics synchronized successfully.', 'success');
+            
+            setTimeout(() => {
+                if (icon) {
+                    icon.style.transform = 'none';
+                    icon.style.transition = 'none';
+                }
+            }, 800);
+        });
+    }
+
+    // ==========================================================================
+    // IMAGE/BANNER CAROUSEL SLIDER
+    // ==========================================================================
+    const sliderWrapper = document.getElementById('sliderWrapper');
+    const slides = document.querySelectorAll('.slide');
+    const prevSlide = document.getElementById('prevSlide');
+    const nextSlide = document.getElementById('nextSlide');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    let sliderInterval;
+
+    function showSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        
+        currentSlide = index;
+        
+        if (sliderWrapper) {
+            sliderWrapper.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+        }
+        
+        slides.forEach((slide, i) => {
+            if (i === currentSlide) slide.classList.add('active');
+            else slide.classList.remove('active');
+        });
+        
+        indicators.forEach((indicator, i) => {
+            if (i === currentSlide) indicator.classList.add('active');
+            else indicator.classList.remove('active');
+        });
+    }
+
+    function startSliderAutoPlay() {
+        clearInterval(sliderInterval);
+        sliderInterval = setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+    }
+
+    if (prevSlide && nextSlide) {
+        prevSlide.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+            startSliderAutoPlay();
+        });
+        
+        nextSlide.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+            startSliderAutoPlay();
+        });
+        
+        indicators.forEach((indicator) => {
+            indicator.addEventListener('click', () => {
+                const idx = parseInt(indicator.getAttribute('data-index'));
+                showSlide(idx);
+                startSliderAutoPlay();
+            });
+        });
+        
+        startSliderAutoPlay();
+    }
+
+    // ==========================================================================
+    // NOTIFICATION DROPDOWN PANEL
+    // ==========================================================================
+    const bellBtn = document.getElementById('bellBtn');
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const closeNotificationDropdown = document.getElementById('closeNotificationDropdown');
+    const notiStatCard = document.getElementById('notiStatCard');
+    const clearNotifications = document.getElementById('clearNotifications');
+    const notificationList = document.getElementById('notificationList');
+    const bellBadge = document.getElementById('bellBadge');
+    const statNotifications = document.getElementById('stat-notifications');
+
+    function toggleNotificationDropdown(e) {
+        if (e) e.stopPropagation();
+        if (notificationDropdown) {
+            notificationDropdown.classList.toggle('hidden');
+        }
+    }
+
+    if (bellBtn) {
+        bellBtn.addEventListener('click', toggleNotificationDropdown);
+    }
+    
+    if (notiStatCard) {
+        notiStatCard.addEventListener('click', toggleNotificationDropdown);
+    }
+
+    if (closeNotificationDropdown) {
+        closeNotificationDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (notificationDropdown) {
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+    }
+
+    // Hide dropdown on click outside
+    document.addEventListener('click', (e) => {
+        if (notificationDropdown && !notificationDropdown.classList.contains('hidden')) {
+            if (!notificationDropdown.contains(e.target) && !bellBtn.contains(e.target) && (!notiStatCard || !notiStatCard.contains(e.target))) {
+                notificationDropdown.classList.add('hidden');
+            }
+        }
+    });
+
+    // Mark single notification as read
+    if (notificationList) {
+        notificationList.addEventListener('click', (e) => {
+            const readBtn = e.target.closest('.noti-read-btn');
+            if (!readBtn) return;
+            e.stopPropagation();
+
+            const item = readBtn.closest('.notification-item');
+            if (item && item.classList.contains('unread')) {
+                item.classList.remove('unread');
+                readBtn.style.opacity = '0.2';
+                readBtn.disabled = true;
+
+                // Update badge and stat count
+                let count = parseInt(bellBadge.textContent) || 0;
+                if (count > 0) {
+                    count--;
+                    bellBadge.textContent = count;
+                    if (statNotifications) statNotifications.textContent = count;
+                    
+                    if (count === 0) {
+                        bellBadge.style.display = 'none';
+                        const notiFooterText = notiStatCard ? notiStatCard.querySelector('.trend-label') : null;
+                        if (notiFooterText) notiFooterText.textContent = 'All notifications cleared';
+                    }
+                }
+                showToast('Notification Read', 'Marked notification as read.', 'info');
+            }
+        });
+    }
+
+    // Clear all notifications
+    if (clearNotifications) {
+        clearNotifications.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (notificationList) {
+                notificationList.innerHTML = `
+                    <div class="empty-notifications" style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.75rem;">
+                        <i class="ph ph-bell-slash" style="font-size: 1.5rem; margin-bottom: 0.4rem; display: block; color: var(--text-muted);"></i>
+                        No new notifications
+                    </div>
+                `;
+            }
+            if (bellBadge) {
+                bellBadge.textContent = '0';
+                bellBadge.style.display = 'none';
+            }
+            if (statNotifications) {
+                statNotifications.textContent = '0';
+            }
+            const notiFooter = notiStatCard ? notiStatCard.querySelector('.stat-footer') : null;
+            if (notiFooter) {
+                notiFooter.innerHTML = `<span class="trend-info"><i class="ph ph-check"></i> Clean</span><span class="trend-label">No alerts pending</span>`;
+            }
+            showToast('Cleared All', 'All notifications cleared.', 'info');
+        });
+    }
+
+    // ==========================================================================
+    // TAGLINE TYPEWRITER EFFECT
+    // ==========================================================================
+    const typingTarget = document.getElementById('typing-effect');
+    if (typingTarget) {
+        const phrases = [
+            'analyzing active SaaS license seats...',
+            'reconciling global billing transactions...',
+            'auditing and reducing software waste.',
+            'alerting upcoming renewal deadlines.'
+        ];
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        let typingSpeed = 70;
+
+        function type() {
+            const currentPhrase = phrases[phraseIdx];
+            
+            if (isDeleting) {
+                typingTarget.textContent = currentPhrase.substring(0, charIdx - 1);
+                charIdx--;
+                typingSpeed = 35;
+            } else {
+                typingTarget.textContent = currentPhrase.substring(0, charIdx + 1);
+                charIdx++;
+                typingSpeed = 70;
+            }
+
+            if (!isDeleting && charIdx === currentPhrase.length) {
+                isDeleting = true;
+                typingSpeed = 2200; // Pause at the end
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                typingSpeed = 400; // Pause before typing next
+            }
+
+            setTimeout(type, typingSpeed);
+        }
+        
+        setTimeout(type, 800);
+    }
+
+    // ==========================================================================
+    // FLOATING SCROLL TO TOP BUTTON
+    // ==========================================================================
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('hidden');
+            } else {
+                scrollTopBtn.classList.add('hidden');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
     // ==========================================================================
     // FORM VALIDATION & INTERACTIVE ALERTS
@@ -178,7 +452,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. Phone validation
             const phoneInput = document.getElementById('reg-phone');
-            if (phoneInput.value.trim().length < 8) {
+            const phoneRegex = /^\+?[0-9\s\-()]{8,20}$/;
+            if (!phoneRegex.test(phoneInput.value.trim())) {
                 showInputError(phoneInput, true);
                 isFormValid = false;
             } else {
@@ -258,10 +533,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showInputError(inputEl, isError) {
         const group = inputEl.closest('.form-group');
-        if (isError) {
-            group.classList.add('invalid');
-        } else {
-            group.classList.remove('invalid');
+        if (group) {
+            if (isError) {
+                group.classList.add('invalid');
+            } else {
+                group.classList.remove('invalid');
+            }
         }
     }
 
@@ -280,27 +557,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let toastTimeout;
 
     function showToast(title, message, type = 'success') {
-        // Clear active timeout
         clearTimeout(toastTimeout);
 
-        // Update content
         toastTitle.textContent = title;
         toastMsg.textContent = message;
 
-        // Reset classes
         toast.className = 'toast';
         toast.classList.add(type);
 
-        // Update icon based on type
         let iconMarkup = '<i class="ph ph-check-circle"></i>';
         if (type === 'error') iconMarkup = '<i class="ph ph-x-circle"></i>';
         if (type === 'info') iconMarkup = '<i class="ph ph-info"></i>';
         toastIcon.innerHTML = iconMarkup;
 
-        // Present Toast
         toast.classList.remove('hidden');
 
-        // Dismiss Toast after 4.5 seconds
         toastTimeout = setTimeout(() => {
             toast.classList.add('hidden');
         }, 4500);
