@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubFlow - Subscription Management Dashboard</title>
+    <meta name="description" content="SubFlow is a premium subscription management dashboard web application built to monitor, audit, and optimize recurring subscription plans.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- =====================================================
+             REQUIREMENT 1: Header
+             (Logo, App Name, Tagline, Student Name, Register No.)
+             REQUIREMENT 2: Navigation Bar
+             (Home, Dashboard, Services, Reports, About, Contact, Logout)
+        ====================================================== -->
+        <aside class="sidebar">
+            <header class="app-header">
+                <div class="logo-wrapper">
+                    <img src="subflow_logo.png" alt="SubFlow Logo" class="app-logo" id="appLogo">
+                    <div class="brand-info">
+                        <h1 class="app-name">SubFlow</h1>
+                        <p class="tagline">Smart tracking, simplified.</p>
+                    </div>
+                </div>
+
+                <!-- Student Name & Register Number -->
+                <div class="student-badge">
+                    <div class="student-info">
+                        <div class="avatar-glow">AC</div>
+                        <div>
+                            <div class="student-name">Alex Carter</div>
+                            <div class="student-reg">Reg: 23IT701</div>
+                        </div>
+                    </div>
+                    <div class="lab-details">
+                        <span>23IT721 – Full Stack Lab</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Navigation Bar -->
+            <nav class="navigation-bar">
+                <ul class="nav-links">
+                    <li>
+                        <a href="#welcome" class="nav-link active" id="nav-home">
+                            <i class="ph ph-house"></i><span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#dashboard" class="nav-link" id="nav-dashboard">
+                            <i class="ph ph-squares-four"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#features-services" class="nav-link" id="nav-services">
+                            <i class="ph ph-gear"></i><span>Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#modules" class="nav-link" id="nav-reports">
+                            <i class="ph ph-chart-bar"></i><span>Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#about" class="nav-link" id="nav-about">
+                            <i class="ph ph-info"></i><span>About</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#register" class="nav-link" id="nav-contact">
+                            <i class="ph ph-envelope"></i><span>Contact</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-footer">
+                    <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+                        <i class="ph ph-moon"></i><span>Dark Theme</span>
+                    </button>
+                    <a href="#" class="logout-btn" id="nav-logout">
+                        <i class="ph ph-sign-out"></i><span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- REQUIREMENT 7: Latest Updates using <marquee> -->
+            <div class="marquee-ticker">
+                <div class="ticker-badge">UPDATES</div>
+                <marquee behavior="scroll" direction="left" scrollamount="6" class="marquee-content">
+                    🔥 <strong>System Upgrade:</strong> Automated renewal tracking v2.4 deployed successfully.
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    🚀 <strong>New Integrations:</strong> Stripe, PayPal, and Google Cloud billing sync are now live.
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    💎 <strong>Optimization Alert:</strong> Review inactive subscriptions to save up to $145/month.
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    📢 <strong>Announcement:</strong> SubFlow v3.0 launches July 2026 with AI-powered cost forecasting.
+                </marquee>
+            </div>
+
+            <div class="content-body">
+
+                <!-- =====================================================
+                     REQUIREMENT 3: Welcome Section
+                     (Welcome Message, Project Description, Vision, Mission)
+                ====================================================== -->
+                <section id="welcome" class="content-section card-gradient">
+                    <div class="section-badge">WELCOME</div>
+                    <h2 class="welcome-title">Welcome to SubFlow</h2>
+                    <p class="welcome-lead">
+                        SubFlow is a professional subscription management dashboard designed to help organizations
+                        monitor, audit, and optimize all recurring software and service expenses in real-time.
+                        Built as part of the 23IT721 Full Stack Development Laboratory, this application demonstrates
+                        a complete, deployment-ready web interface.
+                    </p>
+
+                    <div class="mission-vision-grid">
+                        <div class="mv-card">
+                            <div class="mv-icon"><i class="ph ph-eye"></i></div>
+                            <h3>Our Vision</h3>
+                            <p>To eliminate wasted SaaS spend globally, enabling teams and businesses to gain
+                            absolute clarity, control, and efficiency over their recurring digital investments.</p>
+                        </div>
+                        <div class="mv-card">
+                            <div class="mv-icon"><i class="ph ph-target"></i></div>
+                            <h3>Our Mission</h3>
+                            <p>Delivering an intuitive, smart tracking system that audits subscriptions, automates
+                            invoicing, sends renewal reminders, and highlights cost-saving opportunities.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================================
+                     REQUIREMENT 3 (cont.): About Section
+                ====================================================== -->
+                <section id="about" class="content-section">
+                    <div class="section-badge">ABOUT</div>
+                    <h2 class="section-title">About SubFlow</h2>
+                    <p class="section-desc">
+                        SubFlow was developed as a capstone project for the Full Stack Development Laboratory course
+                        (23IT721). It showcases modern HTML5 semantic structure, responsive CSS layout, and
+                        JavaScript-driven interactivity — all deployed on Vercel with version control via GitHub.
+                        The platform targets IT managers, finance teams, and startup founders who need a single
+                        source of truth for all subscription-based expenditures.
+                    </p>
+                </section>
+
+                <!-- =====================================================
+                     REQUIREMENT 4: Dashboard Statistics
+                     (Total Users, Active Users, Revenue, Transactions,
+                      Notifications, Pending Tasks)
+                ====================================================== -->
+                <section id="dashboard" class="content-section">
+                    <div class="section-header-row">
+                        <div>
+                            <div class="section-badge">OVERVIEW</div>
+                            <h2 class="section-title">Dashboard Statistics</h2>
+                        </div>
+                        <div class="date-badge" id="currentDate">June 2026</div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <!-- Total Users -->
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Total Users</span>
+                                <div class="stat-icon-wrapper orange"><i class="ph ph-users"></i></div>
+                            </div>
+                            <div class="stat-value" id="stat-total-users">1,482</div>
+                            <div class="stat-footer">
+                                <span class="trend-up"><i class="ph ph-trend-up"></i> +12%</span>
+                                <span class="trend-label">from last month</span>
+                            </div>
+                        </div>
+
+                        <!-- Active Users -->
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Active Users</span>
+                                <div class="stat-icon-wrapper green"><i class="ph ph-user-check"></i></div>
+                            </div>
+                            <div class="stat-value" id="stat-active-users">1,240</div>
+                            <div class="stat-footer">
+                                <span class="trend-up"><i class="ph ph-trend-up"></i> +8.4%</span>
+                                <span class="trend-label">92% utilization rate</span>
+                            </div>
+                        </div>
+
+                        <!-- Revenue -->
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Revenue</span>
+                                <div class="stat-icon-wrapper gold"><i class="ph ph-currency-dollar"></i></div>
+                            </div>
+                            <div class="stat-value" id="stat-revenue">$14,250</div>
+                            <div class="stat-footer">
+                                <span class="trend-down"><i class="ph ph-trend-down"></i> -4.2%</span>
+                                <span class="trend-label">savings optimized</span>
+                            </div>
+                        </div>
+
+                        <!-- Transactions -->
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Transactions</span>
+                                <div class="stat-icon-wrapper purple"><i class="ph ph-receipt"></i></div>
+                            </div>
+                            <div class="stat-value" id="stat-transactions">384</div>
+                            <div class="stat-footer">
+                                <span class="trend-up"><i class="ph ph-trend-up"></i> +3.1%</span>
+                                <span class="trend-label">all auto-reconciled</span>
+                            </div>
+                        </div>
+
+                        <!-- Notifications -->
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Notifications</span>
+                                <div class="stat-icon-wrapper coral"><i class="ph ph-bell"></i></div>
+                            </div>
+                            <div class="stat-value" id="stat-notifications">7</div>
+                            <div class="stat-footer">
+                                <span class="trend-warning"><i class="ph ph-warning-circle"></i> 3 Critical</span>
+                                <span class="trend-label">requires action</span>
+                            </div>
+                        </div>
+
+                        <!-- Pending Tasks -->
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Pending Tasks</span>
+                                <div class="stat-icon-wrapper teal"><i class="ph ph-check-square"></i></div>
+                            </div>
+                            <div class="stat-value" id="stat-pending-tasks">5</div>
+                            <div class="stat-footer">
+                                <span class="trend-info"><i class="ph ph-clock"></i> Due Today</span>
+                                <span class="trend-label">renewals &amp; audits</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================================
+                     REQUIREMENT 5: Features Section using <ul> and <li>
+                     REQUIREMENT 6: Services Section using <ol> and <li>
+                ====================================================== -->
+                <section id="features-services" class="content-section grid-2-col">
+
+                    <!-- Features using <ul> -->
+                    <div class="feature-card">
+                        <div class="section-badge">FEATURES</div>
+                        <h2 class="card-title">Key Platform Features</h2>
+                        <p class="card-desc">Industry-leading features to handle subscription models of all scales:</p>
+                        <ul class="features-list">
+                            <li>
+                                <div class="list-bullet"><i class="ph ph-check"></i></div>
+                                <div class="list-text">
+                                    <strong>Automated Renewal Warnings:</strong> Get notified via email 7 days before any license renews.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-bullet"><i class="ph ph-check"></i></div>
+                                <div class="list-text">
+                                    <strong>Multi-Currency Support:</strong> Convert all global subscriptions into a single currency for unified budgeting.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-bullet"><i class="ph ph-check"></i></div>
+                                <div class="list-text">
+                                    <strong>Granular Spending Analytics:</strong> Break down costs by department, user, category, or payment source.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-bullet"><i class="ph ph-check"></i></div>
+                                <div class="list-text">
+                                    <strong>License Allocation Audit:</strong> Identify inactive accounts and empty software seats automatically.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-bullet"><i class="ph ph-check"></i></div>
+                                <div class="list-text">
+                                    <strong>Role-Based Access Control:</strong> Assign admin, manager, or viewer roles to team members securely.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Services using <ol> -->
+                    <div class="service-card">
+                        <div class="section-badge">SERVICES</div>
+                        <h2 class="card-title">Core Management Services</h2>
+                        <p class="card-desc">Specialized consulting and automated workflows to streamline your operations:</p>
+                        <ol class="services-list">
+                            <li>
+                                <div class="list-num">1</div>
+                                <div class="list-text">
+                                    <strong>Subscription Lifecycle Audit:</strong> Comprehensive review to map every active recurring bill.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-num">2</div>
+                                <div class="list-text">
+                                    <strong>SaaS Contract Negotiation:</strong> Leveraging volume data to lower costs with vendors on your behalf.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-num">3</div>
+                                <div class="list-text">
+                                    <strong>Automated Invoice Collection:</strong> Consolidating invoices into accounting tools like QuickBooks and Xero.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-num">4</div>
+                                <div class="list-text">
+                                    <strong>Enterprise SSO Integration:</strong> Sync subscription permissions directly with Okta or Azure AD.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-num">5</div>
+                                <div class="list-text">
+                                    <strong>24/7 Priority Support:</strong> Dedicated account managers and round-the-clock technical assistance.
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- =====================================================
+                     REQUIREMENT 9: Application Modules Table
+                     (Module ID, Module Name, Description)
+                ====================================================== -->
+                <section id="modules" class="content-section">
+                    <div class="section-badge">ARCHITECTURE</div>
+                    <h2 class="section-title">Application Modules</h2>
+                    <p class="section-desc">SubFlow operates using five highly optimized backend and frontend modules:</p>
+
+                    <div class="table-container">
+                        <table class="modules-table">
+                            <thead>
+                                <tr>
+                                    <th>Module ID</th>
+                                    <th>Module Name</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge-mono">MOD-001</span></td>
+                                    <td class="table-bold">Identity &amp; Access Manager</td>
+                                    <td>Manages role-based access control, secure OAuth authorization, and organization profiles.</td>
+                                    <td><span class="status-pill status-active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge-mono">MOD-002</span></td>
+                                    <td class="table-bold">Sync Integration Gateway</td>
+                                    <td>Fetches real-time transaction updates from bank API feeds, Stripe, PayPal, and vendors.</td>
+                                    <td><span class="status-pill status-active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge-mono">MOD-003</span></td>
+                                    <td class="table-bold">Cost Forecasting Engine</td>
+                                    <td>Calculates future subscription expenses based on trends, renewals, and planned upgrades.</td>
+                                    <td><span class="status-pill status-active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge-mono">MOD-004</span></td>
+                                    <td class="table-bold">Notification Dispatcher</td>
+                                    <td>Automates alerts across email, SMS, and webhook channels for upcoming invoices and renewals.</td>
+                                    <td><span class="status-pill status-active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge-mono">MOD-005</span></td>
+                                    <td class="table-bold">Audit Optimization Bot</td>
+                                    <td>Monitors software logins to detect and flag unused user licenses and duplicate subscriptions.</td>
+                                    <td><span class="status-pill status-pending">Testing</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- =====================================================
+                     REQUIREMENT 8: Registration Form
+                     (Name, Email, Phone, Password, Gender, DOB, Address,
+                      Submit & Reset Buttons)
+                     REQUIREMENT 10: Contact Information
+                     (Email, Phone, Address, Social Media Links)
+                ====================================================== -->
+                <section id="register" class="content-section grid-2-col">
+
+                    <!-- Registration Form -->
+                    <div class="form-card">
+                        <div class="section-badge">REGISTRATION</div>
+                        <h2 class="card-title">Create Manager Account</h2>
+                        <p class="card-desc">Register your SubFlow administrator profile to start tracking subscriptions.</p>
+
+                        <form id="registrationForm" class="custom-form" novalidate>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reg-name">Full Name</label>
+                                    <input type="text" id="reg-name" name="name" placeholder="John Doe" required>
+                                    <div class="error-msg">Please enter your name</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-email">Email Address</label>
+                                    <input type="email" id="reg-email" name="email" placeholder="john@example.com" required>
+                                    <div class="error-msg">Please enter a valid email</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reg-phone">Phone Number</label>
+                                    <input type="tel" id="reg-phone" name="phone" placeholder="+1 (555) 019-2834" required>
+                                    <div class="error-msg">Please enter your phone number</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-password">Password</label>
+                                    <input type="password" id="reg-password" name="password" placeholder="••••••••" required>
+                                    <div class="error-msg">Password must be at least 8 characters</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reg-gender">Gender</label>
+                                    <select id="reg-gender" name="gender" required>
+                                        <option value="" disabled selected>Select gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                    </select>
+                                    <div class="error-msg">Please select your gender</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-dob">Date of Birth</label>
+                                    <input type="date" id="reg-dob" name="dob" required>
+                                    <div class="error-msg">Please enter your date of birth</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reg-address">Address</label>
+                                <textarea id="reg-address" name="address" rows="3" placeholder="123 Corporate Blvd, Suite 400" required></textarea>
+                                <div class="error-msg">Please enter your address</div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="reset" class="btn btn-secondary" id="resetBtn">Reset</button>
+                                <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="contact-card">
+                        <div class="section-badge">CONTACT INFO</div>
+                        <h2 class="card-title">Get in Touch</h2>
+                        <p class="card-desc">Have questions about SubFlow? Reach out to our support team anytime.</p>
+
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="ph ph-envelope-simple"></i></div>
+                                <div class="contact-text">
+                                    <span class="contact-label">Email</span>
+                                    <a href="mailto:support@subflow.io" class="contact-link">support@subflow.io</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="ph ph-phone-call"></i></div>
+                                <div class="contact-text">
+                                    <span class="contact-label">Phone Number</span>
+                                    <a href="tel:+18005550199" class="contact-link">+1 (800) 555-0199</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-item">
+                                <div class="contact-icon"><i class="ph ph-map-pin"></i></div>
+                                <div class="contact-text">
+                                    <span class="contact-label">Address</span>
+                                    <p class="contact-val">Suite 721, Full Stack Tower, Silicon Valley, CA 94025</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-section">
+                            <h3>Social Media</h3>
+                            <div class="social-links">
+                                <a href="https://github.com" target="_blank" aria-label="GitHub" class="social-link">
+                                    <i class="ph ph-github-logo"></i>
+                                </a>
+                                <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn" class="social-link">
+                                    <i class="ph ph-linkedin-logo"></i>
+                                </a>
+                                <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="social-link">
+                                    <i class="ph ph-twitter-logo"></i>
+                                </a>
+                                <a href="https://youtube.com" target="_blank" aria-label="YouTube" class="social-link">
+                                    <i class="ph ph-youtube-logo"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div><!-- end .content-body -->
+
+            <!-- =====================================================
+                 REQUIREMENT 11: Footer
+                 © 2026 Application Name, Designed by Student Name
+            ====================================================== -->
+            <footer class="app-footer">
+                <div class="footer-divider"></div>
+                <div class="footer-content">
+                    <p class="footer-copyright">&copy; 2026 SubFlow. All rights reserved.</p>
+                    <p class="footer-designed">Designed by Alex Carter</p>
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <span>&bull;</span>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-icon" id="toastIcon"><i class="ph ph-check-circle"></i></div>
+        <div class="toast-content">
+            <h4 class="toast-title" id="toastTitle">Success</h4>
+            <p class="toast-msg" id="toastMsg">Action completed successfully.</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
