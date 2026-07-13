@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = document.documentElement;
 
     // Load saved theme preference
-    const savedTheme = localStorage.getItem('subflow-theme') || 'dark';
+    const savedTheme = localStorage.getItem('subflow-theme') || 'light';
     html.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 

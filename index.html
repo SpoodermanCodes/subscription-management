@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <meta name="description" content="SubFlow is a premium subscription management dashboard web application built to monitor, audit, and optimize recurring subscription plans.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -554,53 +554,193 @@
                 ====================================================== -->
                 <section id="drag-drop" class="content-section animate-slide-in">
                     <div class="section-badge">DRAG & DROP</div>
-                    <h2 class="section-title">Interactive Drag & Drop</h2>
-                    <p class="section-desc">Drag the subscription category cards below and drop them into the target zone. Uses HTML5 Drag and Drop API with <code>dragstart</code>, <code>dragover</code>, and <code>drop</code> events.</p>
+                    <h2 class="section-title">Active Subscriptions</h2>
+                    <p class="section-desc">Drag bills from your active subscriptions into the <strong>Review Queue</strong> to audit them. Uses HTML5 <code>dragstart</code>, <code>dragover</code>, and <code>drop</code> events.</p>
 
                     <div class="dnd-layout">
-                        <!-- Drag Source: Colored draggable boxes -->
+                        <!-- Drag Source: Real subscription bill cards -->
                         <div class="dnd-source-area">
-                            <h3 class="dnd-area-title"><i class="ph ph-hand-grabbing"></i> Drag Source</h3>
+                            <h3 class="dnd-area-title"><i class="ph ph-credit-card"></i> Your Bills <span class="dnd-count-badge" id="sourceCount">8</span></h3>
                             <div class="dnd-source-grid" id="dndSourceGrid">
-                                <!-- Draggable image (Assignment 4 – Requirement 5) -->
-                                <div class="dnd-item dnd-image-item" draggable="true" data-id="logo" id="drag-logo">
-                                    <img src="subflow_logo.png" alt="SubFlow Logo" class="dnd-drag-image">
-                                    <span>Logo</span>
+
+                                <!-- Netflix -->
+                                <div class="dnd-bill-card" draggable="true" data-id="netflix" data-amount="15.99" data-name="Netflix">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#E50914">
+                                            <i class="ph ph-television"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">Netflix</span>
+                                            <span class="bill-category">Streaming</span>
+                                        </div>
+                                        <span class="bill-status active">Active</span>
+                                    </div>
+                                    <p class="bill-desc">Standard HD plan — 2 screens. Auto-renews monthly via Visa •••• 4242.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 18, 2025</div>
+                                        <div class="bill-amount">$15.99<span>/mo</span></div>
+                                    </div>
                                 </div>
-                                <div class="dnd-item" draggable="true" data-id="analytics" id="drag-analytics">
-                                    <div class="dnd-item-icon orange"><i class="ph ph-chart-line-up"></i></div>
-                                    <span>Analytics</span>
+
+                                <!-- Spotify -->
+                                <div class="dnd-bill-card" draggable="true" data-id="spotify" data-amount="9.99" data-name="Spotify">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#1DB954">
+                                            <i class="ph ph-music-note"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">Spotify</span>
+                                            <span class="bill-category">Music</span>
+                                        </div>
+                                        <span class="bill-status active">Active</span>
+                                    </div>
+                                    <p class="bill-desc">Premium Individual — unlimited skips, offline listening, no ads.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 22, 2025</div>
+                                        <div class="bill-amount">$9.99<span>/mo</span></div>
+                                    </div>
                                 </div>
-                                <div class="dnd-item" draggable="true" data-id="security" id="drag-security">
-                                    <div class="dnd-item-icon green"><i class="ph ph-shield-check"></i></div>
-                                    <span>Security</span>
+
+                                <!-- Home WiFi -->
+                                <div class="dnd-bill-card" draggable="true" data-id="wifi" data-amount="59.99" data-name="Home WiFi">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#0EA5E9">
+                                            <i class="ph ph-wifi-high"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">Home WiFi</span>
+                                            <span class="bill-category">Internet</span>
+                                        </div>
+                                        <span class="bill-status active">Active</span>
+                                    </div>
+                                    <p class="bill-desc">Xfinity 400 Mbps broadband — unlimited data, no contract.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 25, 2025</div>
+                                        <div class="bill-amount">$59.99<span>/mo</span></div>
+                                    </div>
                                 </div>
-                                <div class="dnd-item" draggable="true" data-id="billing" id="drag-billing">
-                                    <div class="dnd-item-icon gold"><i class="ph ph-credit-card"></i></div>
-                                    <span>Billing</span>
+
+                                <!-- Adobe CC -->
+                                <div class="dnd-bill-card" draggable="true" data-id="adobe" data-amount="54.99" data-name="Adobe CC">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#FF0000">
+                                            <i class="ph ph-pen-nib"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">Adobe CC</span>
+                                            <span class="bill-category">Design</span>
+                                        </div>
+                                        <span class="bill-status warning">Due Soon</span>
+                                    </div>
+                                    <p class="bill-desc">Creative Cloud All Apps — Photoshop, Illustrator, Premiere Pro &amp; more.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 15, 2025</div>
+                                        <div class="bill-amount">$54.99<span>/mo</span></div>
+                                    </div>
                                 </div>
-                                <div class="dnd-item" draggable="true" data-id="alerts" id="drag-alerts">
-                                    <div class="dnd-item-icon purple"><i class="ph ph-bell-ringing"></i></div>
-                                    <span>Alerts</span>
+
+                                <!-- GitHub Pro -->
+                                <div class="dnd-bill-card" draggable="true" data-id="github" data-amount="4.00" data-name="GitHub Pro">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#24292F">
+                                            <i class="ph ph-github-logo"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">GitHub Pro</span>
+                                            <span class="bill-category">Dev Tools</span>
+                                        </div>
+                                        <span class="bill-status active">Active</span>
+                                    </div>
+                                    <p class="bill-desc">Pro plan — private repos, advanced insights, GitHub Copilot access.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Aug 1, 2025</div>
+                                        <div class="bill-amount">$4.00<span>/mo</span></div>
+                                    </div>
                                 </div>
-                                <div class="dnd-item" draggable="true" data-id="reports" id="drag-reports">
-                                    <div class="dnd-item-icon coral"><i class="ph ph-file-text"></i></div>
-                                    <span>Reports</span>
+
+                                <!-- Electricity -->
+                                <div class="dnd-bill-card" draggable="true" data-id="electricity" data-amount="112.40" data-name="Electricity">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#F59E0B">
+                                            <i class="ph ph-lightning"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">Electricity</span>
+                                            <span class="bill-category">Utility</span>
+                                        </div>
+                                        <span class="bill-status warning">Due Soon</span>
+                                    </div>
+                                    <p class="bill-desc">PG&amp;E residential plan — avg 620 kWh/month. E-bill enrolled.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 16, 2025</div>
+                                        <div class="bill-amount">$112.40<span>/mo</span></div>
+                                    </div>
                                 </div>
-                                <div class="dnd-item" draggable="true" data-id="integrations" id="drag-integrations">
-                                    <div class="dnd-item-icon teal"><i class="ph ph-plugs-connected"></i></div>
-                                    <span>Integrations</span>
+
+                                <!-- ChatGPT Plus -->
+                                <div class="dnd-bill-card" draggable="true" data-id="chatgpt" data-amount="20.00" data-name="ChatGPT Plus">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#10A37F">
+                                            <i class="ph ph-robot"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">ChatGPT Plus</span>
+                                            <span class="bill-category">AI Tools</span>
+                                        </div>
+                                        <span class="bill-status active">Active</span>
+                                    </div>
+                                    <p class="bill-desc">GPT-4o access, DALL·E image gen, advanced data analysis &amp; plugins.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 28, 2025</div>
+                                        <div class="bill-amount">$20.00<span>/mo</span></div>
+                                    </div>
                                 </div>
+
+                                <!-- iCloud+ -->
+                                <div class="dnd-bill-card" draggable="true" data-id="icloud" data-amount="2.99" data-name="iCloud+">
+                                    <div class="bill-card-header">
+                                        <div class="bill-logo-wrap" style="background:#3B82F6">
+                                            <i class="ph ph-cloud"></i>
+                                        </div>
+                                        <div class="bill-meta">
+                                            <span class="bill-name">iCloud+</span>
+                                            <span class="bill-category">Cloud Storage</span>
+                                        </div>
+                                        <span class="bill-status active">Active</span>
+                                    </div>
+                                    <p class="bill-desc">50 GB storage plan — iCloud Drive, Photos backup, Mail privacy.</p>
+                                    <div class="bill-card-footer">
+                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Aug 3, 2025</div>
+                                        <div class="bill-amount">$2.99<span>/mo</span></div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <!-- Drop Target -->
+                        <!-- Drop Target: Review Queue -->
                         <div class="dnd-target-area">
-                            <h3 class="dnd-area-title"><i class="ph ph-target"></i> Drop Target</h3>
+                            <h3 class="dnd-area-title"><i class="ph ph-clipboard-text"></i> Review Queue <span class="dnd-count-badge" id="queueCount">0</span></h3>
                             <div class="dnd-drop-zone" id="dndDropZone">
                                 <div class="dnd-drop-placeholder" id="dndPlaceholder">
-                                    <i class="ph ph-arrow-fat-down"></i>
-                                    <p>Drop items here</p>
+                                    <i class="ph ph-arrow-fat-lines-left"></i>
+                                    <p>Drag bills here to review</p>
+                                    <span>Selected bills will be queued for audit</span>
+                                </div>
+                            </div>
+                            <!-- Running total summary -->
+                            <div class="dnd-summary" id="dndSummary">
+                                <div class="dnd-summary-row">
+                                    <span>Bills Selected</span>
+                                    <strong id="summaryCount">0</strong>
+                                </div>
+                                <div class="dnd-summary-row">
+                                    <span>Monthly Total</span>
+                                    <strong id="summaryTotal" class="summary-total-amount">$0.00</strong>
+                                </div>
+                                <div class="dnd-summary-row">
+                                    <span>Annual Projection</span>
+                                    <strong id="summaryAnnual" class="summary-annual-amount">$0.00</strong>
                                 </div>
                             </div>
                             <button class="btn btn-secondary dnd-reset-btn" id="dndResetBtn">
@@ -812,16 +952,16 @@
                         <div class="social-section">
                             <h3>Social Media</h3>
                             <div class="social-links">
-                                <a href="https://github.com" target="_blank" aria-label="GitHub" class="social-link">
+                                <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link">
                                     <i class="ph ph-github-logo"></i>
                                 </a>
-                                <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn" class="social-link">
+                                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-link">
                                     <i class="ph ph-linkedin-logo"></i>
                                 </a>
-                                <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="social-link">
+                                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-link">
                                     <i class="ph ph-twitter-logo"></i>
                                 </a>
-                                <a href="https://youtube.com" target="_blank" aria-label="YouTube" class="social-link">
+                                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-link">
                                     <i class="ph ph-youtube-logo"></i>
                                 </a>
                             </div>

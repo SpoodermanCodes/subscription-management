@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlElement = document.documentElement;
 
     // Load saved theme or default to dark
-    const savedTheme = localStorage.getItem('subflow-theme') || 'dark';
+    const savedTheme = localStorage.getItem('subflow-theme') || 'light';
     htmlElement.setAttribute('data-theme', savedTheme);
     updateThemeToggleUI(savedTheme);
 
@@ -581,12 +581,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     // ASSIGNMENT 4: DRAG AND DROP FUNCTIONALITY
     // Uses HTML5 Drag and Drop API: dragstart, dragover, drop events
+    // Subscription bill cards with live running total in the review queue
     // ==========================================================================
 
     const dndSourceGrid = document.getElementById('dndSourceGrid');
-    const dndDropZone = document.getElementById('dndDropZone');
+    const dndDropZone   = document.getElementById('dndDropZone');
     const dndPlaceholder = document.getElementById('dndPlaceholder');
-    const dndResetBtn = document.getElementById('dndResetBtn');
+    const dndResetBtn   = document.getElementById('dndResetBtn');
+    const sourceCount   = document.getElementById('sourceCount');
+    const queueCount    = document.getElementById('queueCount');
+    const summaryCount  = document.getElementById('summaryCount');
+    const summaryTotal  = document.getElementById('summaryTotal');
+    const summaryAnnual = document.getElementById('summaryAnnual');
 
     if (dndSourceGrid && dndDropZone) {
         let draggedItem = null;
@@ -594,9 +600,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // Store original HTML for reset
         const originalSourceHTML = dndSourceGrid.innerHTML;
 
+        // Update the running total summary from all cards currently in the drop zone
+        function updateSummary() {
+            const droppedCards = dndDropZone.querySelectorAll('.dnd-bill-card');
+            const count = droppedCards.length;
+            let total = 0;
+            droppedCards.forEach(card => {
+                total += parseFloat(card.dataset.amount) || 0;
+            });
+            if (summaryCount)  summaryCount.textContent  = count;
+            if (summaryTotal)  summaryTotal.textContent  = `$${total.toFixed(2)}`;
+            if (summaryAnnual) summaryAnnual.textContent = `$${(total * 12).toFixed(2)}`;
+            if (queueCount)    queueCount.textContent    = count;
+            if (sourceCount)   sourceCount.textContent   = dndSourceGrid.querySelectorAll('.dnd-bill-card').length;
+
+            // Show/hide placeholder
+            if (dndPlaceholder) {
+                dndPlaceholder.classList.toggle('hidden', count > 0);
+            }
+        }
+
         // REQUIREMENT 7: dragstart event
         dndSourceGrid.addEventListener('dragstart', (e) => {
-            const item = e.target.closest('.dnd-item');
+            const item = e.target.closest('.dnd-bill-card');
             if (!item) return;
             draggedItem = item;
             item.classList.add('dragging');
@@ -605,7 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         dndSourceGrid.addEventListener('dragend', (e) => {
-            const item = e.target.closest('.dnd-item');
+            const item = e.target.closest('.dnd-bill-card');
             if (item) item.classList.remove('dragging');
         });
 
@@ -617,7 +643,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         dndDropZone.addEventListener('dragleave', (e) => {
-            // Only remove class if we actually left the drop zone
             if (!dndDropZone.contains(e.relatedTarget)) {
                 dndDropZone.classList.remove('drag-over');
             }
@@ -629,23 +654,21 @@ document.addEventListener('DOMContentLoaded', () => {
             dndDropZone.classList.remove('drag-over');
 
             if (draggedItem) {
-                // Clone the item and make it non-draggable in the drop zone
+                // Clone into drop zone (compact queued style)
                 const clone = draggedItem.cloneNode(true);
                 clone.removeAttribute('draggable');
                 clone.classList.remove('dragging');
+                clone.classList.add('queued');
 
-                // Remove the original from source
+                // Remove original from source
                 draggedItem.remove();
 
-                // Add to drop zone
                 dndDropZone.appendChild(clone);
+                updateSummary();
 
-                // Hide placeholder if items exist
-                if (dndPlaceholder) {
-                    dndPlaceholder.classList.add('hidden');
-                }
-
-                showToast('Dropped!', `"${clone.querySelector('span').textContent}" moved to target zone.`, 'success');
+                const name   = clone.dataset.name   || clone.querySelector('.bill-name')?.textContent || 'Item';
+                const amount = parseFloat(clone.dataset.amount || 0).toFixed(2);
+                showToast('Added to Queue', `${name} ($${amount}/mo) added to review queue.`, 'success');
                 draggedItem = null;
             }
         });
@@ -653,21 +676,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset button – restore all items back to source
         if (dndResetBtn) {
             dndResetBtn.addEventListener('click', () => {
-                // Restore source grid
                 dndSourceGrid.innerHTML = originalSourceHTML;
-
-                // Clear dropped items from zone (keep placeholder)
-                const droppedItems = dndDropZone.querySelectorAll('.dnd-item');
-                droppedItems.forEach(item => item.remove());
-
-                // Show placeholder
-                if (dndPlaceholder) {
-                    dndPlaceholder.classList.remove('hidden');
-                }
-
-                showToast('Reset', 'All items have been restored to the source area.', 'info');
+                dndDropZone.querySelectorAll('.dnd-bill-card').forEach(item => item.remove());
+                updateSummary();
+                showToast('Reset', 'All bills restored to the active subscriptions list.', 'info');
             });
         }
+
+        // Initial summary state
+        updateSummary();
     }
 
 
