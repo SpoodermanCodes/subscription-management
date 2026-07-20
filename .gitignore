@@ -1,6 +1,7 @@
 # System files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # IDE files
 .vscode/
@@ -10,3 +11,13 @@ Thumbs.db
 *.njsproj
 *.sln
 *.swp
+
+# Vercel
+.vercel/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+*.DS_Store
