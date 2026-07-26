@@ -5,17 +5,17 @@
 ### Smart Subscription Management Dashboard
 
 [![HTML5](https://img.shields.io/badge/HTML5-Semantic%20Elements-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-Responsive%20Design-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![CSS3](https://img.shields.io/badge/CSS3-Advanced%20CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![GitHub](https://img.shields.io/badge/GitHub-Version%20Control-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SpoodermanCodes/subscription-management)
 
-**A progressive, assignment-driven web application built for the 23IT721 Full Stack Development Laboratory.**
+**A professional, responsive dashboard landing page built to demonstrate Inline, Internal, and External stylesheets using Advanced CSS and JavaScript.**
 
-*Monitor SaaS spend · Drag & Drop interactions · Web Storage APIs · Advanced HTML5 Forms*
+*Designed for the 23IT721 Full Stack Development Laboratory.*
 
 ---
 
-[Live Dashboard](#-getting-started) · [Registration Form](./form.html) · [Assignment Coverage](#-assignment-coverage) · [Report Issue](https://github.com/SpoodermanCodes/subscription-management/issues)
+[Live Dashboard](#-getting-started) · [Assignment Details](#-assignment-requirements-mapping) · [Contact Support](#-support)
 
 </div>
 
@@ -23,243 +23,75 @@
 
 ## Overview
 
-**SubFlow** is a professional subscription management dashboard that evolves across multiple lab assignments. Each assignment **adds** new features without removing prior work — creating a single, cohesive product that demonstrates real-world front-end engineering.
+**SubFlow** is a premium subscription management dashboard that provides an executive summary of SaaS spend, active plans, integration gateways, and notifications. 
 
-| Page | Purpose | Key Technologies |
-|------|---------|------------------|
-| [`index.html`](./index.html) | Main dashboard | Semantic HTML5, Drag & Drop API, localStorage, sessionStorage |
-| [`form.html`](./form.html) | Registration portal | Advanced form controls, validation, semantic layout |
+This page demonstrates **all 32 requirements** of the advanced CSS/JS lab assignment, mapping standard restaurant-themed components (such as reservations, dishes, tables, and menus) to enterprise **Subscription Management** features.
 
 ---
 
-## Highlights
+## Assignment Requirements Mapping
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  SubFlow Dashboard                                              │
-├──────────────┬──────────────────────────────────────────────────┤
-│  Sidebar     │  Live ticker · Carousel · Stats · Notifications │
-│  Navigation  │  Drag & Drop zone · Web Storage panel · FAQ     │
-│  Theme toggle│  Registration form · Contact · Enhanced footer    │
-└──────────────┴──────────────────────────────────────────────────┘
-```
+Below is the verification checklist mapping each of the 32 requirements from the restaurant prompt to the implemented **SubFlow** platform:
 
-- **Dual-theme UI** — Dark/Light mode with `localStorage` persistence
-- **Real-time clock** — Live date & time badge on the dashboard
-- **Animated statistics** — Count-up metrics with sync & progress bar
-- **HTML5 Drag & Drop** — Draggable logo image + colored category cards
-- **Web Storage lab** — Save, retrieve, and clear `localStorage` / `sessionStorage`
-- **Notification center** — Bell dropdown with read/clear actions
-- **Advanced registration** — Separate form page with rich HTML5 inputs
-- **Fully responsive** — Mobile-first layout with collapsible sidebar
-
----
-
-## Assignment Coverage
-
-### Assignment 1 — Dashboard Foundation
-
-| # | Requirement | Status | Location |
-|---|-------------|--------|----------|
-| 1 | Professional theme | ✅ | `styles.css` |
-| 2 | Header with logo & title | ✅ | `index.html` → `.app-header` |
-| 3 | Navigation bar | ✅ | `.navigation-bar` |
-| 4 | Welcome / About sections | ✅ | `#welcome`, `#about` |
-| 5 | Features (`<ul>` / `<li>`) | ✅ | `#features` |
-| 6 | Services (`<ol>` / `<li>`) | ✅ | `#services` |
-| 7 | Marquee ticker | ✅ | `.marquee-ticker` |
-| 8 | Image/banner slider | ✅ | `.slider-section` |
-| 9 | Dashboard statistics | ✅ | `#dashboard` |
-| 10 | Contact information | ✅ | `#contact` |
-| 11 | Footer | ✅ | `.app-footer` |
-| 12 | Registration form | ✅ | `#contact` + [`form.html`](./form.html) |
-
-### Assignment 4 — Drag & Drop + Web Storage
-
-| # | Requirement | Status | Implementation |
-|---|-------------|--------|----------------|
-| 1 | Professional theme design | ✅ | Plus Jakarta Sans, orange accent palette |
-| 2 | `<header>` with title & logo | ✅ | Sidebar header block |
-| 3 | Nav: Home, About, Features, Storage, Contact, Help | ✅ | All links present (+ prior assignment links retained) |
-| 4 | Introduction with `<section>` & `<article>` | ✅ | `#welcome` → `.intro-article` |
-| 5 | Draggable image or colored box | ✅ | Logo image + 6 colored category cards |
-| 6 | Drop target area | ✅ | `#dndDropZone` |
-| 7 | `dragstart`, `dragover`, `drop` events | ✅ | `app.js` → Assignment 4 block |
-| 8 | `localStorage` — permanent data | ✅ | `#saveLocalBtn` |
-| 9 | `sessionStorage` — session data | ✅ | `#saveSessionBtn` |
-| 10 | Retrieve data on button click | ✅ | `#retrieveDataBtn` |
-| 11 | Clear stored data | ✅ | `#clearLocalBtn`, `#clearSessionBtn` |
-| 12 | Footer with copyright, student, institution, contact | ✅ | Enhanced `.app-footer` |
-| 13 | Semantic elements | ✅ | `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>`, `<footer>` |
-| 14 | Code organization | ✅ | Commented sections, consistent indentation |
+| S.No | Assignment Requirement | SubFlow Implementation | File Location / Selector |
+| :--- | :--- | :--- | :--- |
+| **1** | **Professional Theme** | Indigo/Teal modern SaaS dashboard interface with custom fonts (Inter/Outfit). | `styles.css` |
+| **2** | **Navigation Bar** | Sticky top navigation menu with: Home, Subscriptions (Menu), Integrations (Chefs), Reservations, Gallery, Reviews, Contact, Logout. Active highlighting and hover effects. | `index.html` → `.header-container` |
+| **3** | **Welcome Banner** | Displays app name, tagline, specialties, vision, mission, and current promos with Fade-In / Slide-In animations. | `index.html` → `#home` |
+| **4** | **Dashboard Cards** | Animated cards for: Available Budget (Tables), Tracked Invoices (Orders), AWS Cloud (Popular Dishes), Savings Rating (Customer Ratings). | `index.html` → `.dashboard-cards-grid` |
+| **5** | **Dynamic Statistics** | JS-driven animated count-up counters for Daily Actives, Subscriptions Audited, Spend Tracked, and Savings Opportunities. | `app.js` → `animateCounters()` |
+| **6** | **Features Section** | Cards detailing: Online Reservations, Instant Alert Delivery, Live API scan, Enterprise Party Hubs, and Secure Gateways. | `index.html` → `#features` |
+| **7** | **Services Section** | Grid layout for Dine-In, Takeaway, Online Delivery, Catering, Event Booking equivalents. | `index.html` → `#services` |
+| **8** | **Image Slider** | Automatic and manual slide carousel showcasing core platform screens. | `app.js` → `updateSlider()` |
+| **9** | **Date & Time** | Dynamic live date and ticking clock widget updating every second. | `app.js` → Ticker Block |
+| **10** | **Theme Switcher** | Light & Dark Mode switcher using CSS variables and HTML attributes. | `app.js` → themeToggle event listener |
+| **11** | **Notification Panel** | Slidin/toggle panel for renewal alerts and promo confirm items. | `index.html` → `#notificationPanel` |
+| **12** | **Reservation Form** | Consultation booking form collecting: Customer Name, Email, Phone, Date, Time, Number of Guests (Team size), and Platform Preference (Seating preference). | `index.html` → `#reservationForm` |
+| **13** | **Form Validation** | Rich JS validators enforcing valid input types, regex matching, and future date checks. | `app.js` → validation checks |
+| **14** | **Animation Effects** | 5+ animations: Fade-In, Bounce (on pin), Zoom (hover), Pulse (urgency alerts), and Typing Effect (hero tagline). | `styles.css` / `app.js` |
+| **15** | **Action Buttons** | CSS transitions applied to CTAs (Submit, Reset, Reserve, Order buttons). | `styles.css` → `.btn`, `.action-transition-btn` |
+| **16** | **Scroll-to-Top** | Floating fixed button appearing on scroll to take users to page top. | `app.js` → `backToTopBtn` |
+| **17** | **Contact Section** | Displays physical address, phone, support email, mock map, and social links. | `index.html` → `#contact` |
+| **18** | **Footer** | Copyright details, SubFlow name, student name (Alex Carter), and register info. | `index.html` → `.footer-container` |
+| **19** | **GitHub Repository** | All files uploaded cleanly to Git with this structural README. | [Repository](https://github.com/SpoodermanCodes/subscription-management) |
+| **20** | **Vercel Deployment** | Configuration added and ready for serverless static deployment. | `vercel.json` |
+| **21** | **CSS Variables** | System-wide tokens defined in `:root` and `[data-theme="dark"]`. | `styles.css` → `:root` |
+| **22** | **CSS Grid Layout** | Grid styling applied to Dashboard Cards, Services, and Gallery items. | `styles.css` → `.gallery-grid`, `.services-grid-container` |
+| **23** | **CSS Flexbox** | Flex layout configurations for navigation header, footer, cards, and form layouts. | `styles.css` → `.header-inner`, `.form-actions-row` |
+| **24** | **Media Queries** | Tailored responsiveness for desktop, tablet, and mobile dimensions. | `styles.css` → Responsive Media Queries |
+| **25** | **CSS Pseudo-Elements** | Creative utilization of `::before`, `::after` (tooltips), `::first-letter`, `::first-line` (welcome lead paragraph), and `::selection`. | `index.html` → `<style>` |
+| **26** | **CSS Transformations** | Scale, rotate, skew, and translate transforms applied on button hover, card hover, logo, and active notifications. | `styles.css` → `.action-transition-btn`, `.social-icon-btn` |
+| **27** | **CSS Transitions** | Smooth animations set on hover events across all cards, buttons, nav links, and theme icons. | `styles.css` |
+| **28** | **CSS Icons** | Integration of Font Awesome 6.4.0 library with hover interactions. | `index.html` → Font Awesome link |
+| **29** | **Image Hover Effects** | CSS filters demonstrating zoom, grayscale, blur, opacity, and colored overlays. | `styles.css` → Image Hover Effects block |
+| **30** | **CSS Positioning** | Demonstrates `relative` (parent wraps), `absolute` (badges/dropdowns), `fixed` (notification panel / scroll-to-top), and `sticky` (header). | `styles.css` |
+| **31** | **CSS Progress Bar** | Custom progress bar highlighting budget consumption, utilizing keyframes. | `styles.css` / `app.js` |
+| **32** | **CSS Tooltip** | CSS-only tooltip bubbles that display using pseudo-elements `::before`/`::after` on `data-tooltip`. | `index.html` → `<style>` |
 
 ---
 
-## Tech Stack
+## Technical Stylesheet Organization
 
-| Layer | Tools |
-|-------|-------|
-| Markup | HTML5 semantic elements, ARIA labels |
-| Styling | CSS3 custom properties, Grid, Flexbox, animations |
-| Scripting | Vanilla JavaScript (ES6+), Web APIs |
-| Icons | [Phosphor Icons](https://phosphoricons.com/) |
-| Typography | [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) |
-| Storage | `localStorage`, `sessionStorage` |
-| Interaction | HTML5 Drag and Drop API |
-
----
-
-## Project Structure
-
-```
-subscription-management/
-├── index.html          # Main dashboard (Assignments 1 + 4)
-├── app.js              # Dashboard logic, DnD, Web Storage
-├── styles.css          # Dashboard design system
-├── form.html           # Registration portal (Assignment 1 forms)
-├── form_app.js         # Form validation & interactivity
-├── form_styles.css     # Registration page styles
-├── subflow_logo.png    # Application logo asset
-├── .gitignore
-└── README.md           # You are here
-```
+To demonstrate the full breadth of the CSS syllabus, three separate style approaches are utilized:
+1. **External Stylesheet**: The major layout styling is handled by [styles.css](./styles.css).
+2. **Internal Stylesheet**: Custom specificity overrides (e.g. selection highlight colors, lead paragraph `::first-letter` styling, and the CSS-only tooltip structure) are declared in the `<style>` block in the head of `index.html`.
+3. **Inline Styles**: Specific inline configurations (e.g. custom spacing margins or gradients) are embedded directly inside elements (such as `<section id="home" style="...">`) to highlight inline overrides.
 
 ---
 
 ## Getting Started
 
-### Prerequisites
+### Quick Run Local
 
-- Any modern browser (Chrome, Firefox, Edge, Safari)
-- A local web server *(optional but recommended)*
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/SpoodermanCodes/subscription-management.git
+   cd subscription-management
+   ```
 
-### Quick Run
-
-**Option A — Open directly**
-
-```bash
-# Clone the repository
-git clone https://github.com/SpoodermanCodes/subscription-management.git
-cd subscription-management
-
-# Open in browser
-start index.html        # Windows
-open index.html         # macOS
-xdg-open index.html     # Linux
-```
-
-**Option B — Local dev server**
-
-```bash
-# Using Python
-python -m http.server 8080
-
-# Using Node.js (npx)
-npx serve .
-```
-
-Then visit `http://localhost:8080`
-
----
-
-## Feature Walkthrough
-
-### Drag & Drop (`#drag-drop`)
-
-1. Navigate to **Drag & Drop** in the sidebar
-2. Grab the **SubFlow logo** or any colored category card
-3. Drop it into the **Drop Target** zone
-4. Click **Reset All** to restore items to the source grid
-
-> Events used: `dragstart` → `dragover` (with `preventDefault`) → `drop`
-
-### Web Storage (`#storage`)
-
-1. Enter a **Key** and **Value** in the storage form
-2. Click **Save to Local** (persists across sessions) or **Save to Session** (tab-only)
-3. Click **Retrieve All Data** to render tables for both storage types
-4. Use **Clear** buttons or per-row **Delete** to remove entries
-
-> Theme preference (`subflow-theme`) is preserved when clearing local storage.
-
-### Help Center (`#help`)
-
-Expandable FAQ covering drag-and-drop usage, storage differences, and support contact info.
-
----
-
-## Semantic HTML Map
-
-```html
-<body>
-  <aside>
-    <header>   <!-- App branding & student info -->
-    <nav>      <!-- Primary navigation -->
-  </aside>
-  <main>
-    <section id="welcome">
-      <article>  <!-- Introduction -->
-    </section>
-    <section id="about">
-      <article>  <!-- About content -->
-    </section>
-    <section id="drag-drop">  <!-- DnD demo -->
-    <section id="storage">
-      <aside>    <!-- Storage type reference -->
-    </section>
-    <section id="help">
-      <article>  <!-- Help intro -->
-    </section>
-    <footer>     <!-- Copyright, institution, contact -->
-  </main>
-</body>
-```
-
----
-
-## Author
-
-<table>
-  <tr>
-    <td><strong>Student</strong></td>
-    <td>Alex Carter</td>
-  </tr>
-  <tr>
-    <td><strong>Register No.</strong></td>
-    <td>23IT701</td>
-  </tr>
-  <tr>
-    <td><strong>Course</strong></td>
-    <td>23IT721 – Full Stack Development Laboratory</td>
-  </tr>
-  <tr>
-    <td><strong>Institution</strong></td>
-    <td>Department of Information Technology, Full Stack University</td>
-  </tr>
-  <tr>
-    <td><strong>Contact</strong></td>
-    <td>
-      <a href="mailto:support@subflow.io">support@subflow.io</a> ·
-      <a href="tel:+18005550199">+1 (800) 555-0199</a>
-    </td>
-  </tr>
-</table>
-
----
-
-## License
-
-This project was created as an academic assignment for the Full Stack Development Laboratory.  
-© 2026 SubFlow. All rights reserved.
-
----
-
-<div align="center">
-
-**Built with HTML5 · CSS3 · JavaScript**
-
-*SubFlow — because every subscription deserves a second look.*
-
-[⬆ Back to Top](#subflow)
-
-</div>
+2. Open `index.html` directly in any web browser, or launch using a local development server:
+   ```bash
+   # If you have python installed
+   python -m http.server 8000
+   ```
+   Now visit `http://localhost:8000` in your web browser.

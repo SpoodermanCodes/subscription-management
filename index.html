@@ -3,1050 +3,979 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SubFlow - Subscription Management Dashboard</title>
-    <meta name="description" content="SubFlow is a premium subscription management dashboard web application built to monitor, audit, and optimize recurring subscription plans.">
-    <meta name="theme-color" content="#FF6B35">
-    <meta property="og:title" content="SubFlow – Subscription Management Dashboard">
-    <meta property="og:description" content="Monitor, audit, and optimize all your recurring subscriptions in one place.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="/subflow_logo.png">
-    <link rel="icon" type="image/png" href="/subflow_logo.png">
+    <title>SubFlow - Smart Subscription Management Dashboard</title>
+    <meta name="description" content="SubFlow helps you monitor, audit, and optimize all recurring subscriptions. Fully responsive lab dashboard.">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome (Requirement 28: CSS Icons Integration) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- External Style Sheet (Requirement 21 & External Sheet Demonstration) -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- INTERNAL STYLE SHEET (Demonstrates Internal styling and CSS specificity) -->
+    <style>
+        /* CSS Selection Pseudo-Element (Requirement 25) */
+        ::selection {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* First Letter and First Line styling on the introduction article (Requirement 25) */
+        .welcome-desc::first-letter {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            float: left;
+            margin-right: 12px;
+            line-height: 1;
+            font-family: 'Outfit', sans-serif;
+            text-shadow: 2px 2px 0px var(--accent-light);
+        }
+
+        .welcome-desc::first-line {
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        /* CSS-Only Tooltip (Requirement 32: Display tooltips using only CSS on buttons or icons) */
+        [data-tooltip] {
+            position: relative;
+            cursor: pointer;
+        }
+
+        [data-tooltip]::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px) scale(0.95);
+            background: rgba(15, 23, 42, 0.95);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 200ms ease, opacity 200ms ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Tooltip Arrow */
+        [data-tooltip]::after {
+            content: "";
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            border-width: 6px;
+            border-style: solid;
+            border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 200ms ease, opacity 200ms ease;
+            z-index: 1000;
+        }
+
+        [data-tooltip]:hover::before,
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        /* Demo badge with inline/internal combination */
+        .internal-badge-demo {
+            border: 1px dashed var(--primary);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--primary);
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="app-container">
-
-        <!-- =====================================================
-             REQUIREMENT 1: Header
-             (Logo, App Name, Tagline, Student Name, Register No.)
-             REQUIREMENT 2: Navigation Bar
-             (Home, Dashboard, Services, Reports, About, Contact, Logout)
-        ====================================================== -->
-        <aside class="sidebar">
-            <header class="app-header">
-                <div class="logo-wrapper">
-                    <img src="subflow_logo.png" alt="SubFlow Logo" class="app-logo" id="appLogo">
-                    <div class="brand-info">
-                        <h1 class="app-name">SubFlow</h1>
-                        <p class="tagline">Smart tracking, simplified.</p>
-                    </div>
+    <!-- Notification Panel (Requirement 11: Show/Hide notification panel for renewal alerts, system messages) -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3><i class="fa-solid fa-bell"></i> System Notifications</h3>
+            <button class="close-notification-btn" id="closeNotificationBtn" data-tooltip="Hide Alerts">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="notification-body">
+            <div class="noti-card urgent animate-pulse">
+                <div class="noti-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+                <div class="noti-details">
+                    <h4>AWS Billing Alert</h4>
+                    <p>Standard VPS hosting plan is due for auto-renewal in 24 hours.</p>
+                    <span class="noti-time">Due Tomorrow</span>
                 </div>
-
-                <!-- Student Name & Register Number -->
-                <div class="student-badge">
-                    <div class="student-info">
-                        <div class="avatar-glow">AC</div>
-                        <div>
-                            <div class="student-name">Alex Carter</div>
-                            <div class="student-reg">Reg: 23IT701</div>
-                        </div>
-                    </div>
-                    <div class="lab-details">
-                        <span>23IT721 – Full Stack Lab</span>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Navigation Bar -->
-            <nav class="navigation-bar">
-                <ul class="nav-links">
-                    <li>
-                        <a href="#welcome" class="nav-link active" id="nav-home">
-                            <i class="ph ph-house"></i><span>Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#dashboard" class="nav-link" id="nav-dashboard">
-                            <i class="ph ph-squares-four"></i><span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#features" class="nav-link" id="nav-features">
-                            <i class="ph ph-sparkles"></i><span>Features</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#services" class="nav-link" id="nav-services">
-                            <i class="ph ph-gear"></i><span>Services</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#modules" class="nav-link" id="nav-reports">
-                            <i class="ph ph-chart-bar"></i><span>Reports</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#contact" class="nav-link" id="nav-contact">
-                            <i class="ph ph-envelope"></i><span>Contact</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#help" class="nav-link" id="nav-help">
-                            <i class="ph ph-question"></i><span>Help</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#drag-drop" class="nav-link" id="nav-dragdrop">
-                            <i class="ph ph-hand-grabbing"></i><span>Drag & Drop</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#storage" class="nav-link" id="nav-storage">
-                            <i class="ph ph-database"></i><span>Storage</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="form.html" class="nav-link" id="nav-form">
-                            <i class="ph ph-user-plus"></i><span>Registration</span>
-                        </a>
-                    </li>
-                </ul>
-                <div class="nav-footer">
-                    <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
-                        <i class="ph ph-moon"></i><span>Dark Theme</span>
-                    </button>
-                    <a href="#" class="logout-btn" id="nav-logout">
-                        <i class="ph ph-sign-out"></i><span>Logout</span>
-                    </a>
-                </div>
-            </nav>
-        </aside>
-
-        <!-- MAIN CONTENT -->
-        <main class="main-content">
-
-            <!-- REQUIREMENT 7: Latest Updates using <marquee> -->
-            <div class="marquee-ticker">
-                <div class="ticker-badge">UPDATES</div>
-                <marquee behavior="scroll" direction="left" scrollamount="6" class="marquee-content">
-                    🔥 <strong>System Upgrade:</strong> Automated renewal tracking v2.4 deployed successfully.
-                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-                    🚀 <strong>New Integrations:</strong> Stripe, PayPal, and Google Cloud billing sync are now live.
-                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-                    💎 <strong>Optimization Alert:</strong> Review inactive subscriptions to save up to $145/month.
-                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-                    📢 <strong>Announcement:</strong> SubFlow v3.0 launches July 2026 with AI-powered cost forecasting.
-                </marquee>
             </div>
-
-            <div class="content-body">
-
-                <!-- =====================================================
-                     REQUIREMENT 3: Welcome Section
-                     (Welcome Message, Project Description, Vision, Mission)
-                ====================================================== -->
-                <section id="welcome" class="content-section card-gradient animate-slide-in">
-                    <div class="section-badge">WELCOME</div>
-                    <!-- ASSIGNMENT 4 – REQUIREMENT 4: Introduction using <section> and <article> -->
-                    <article class="intro-article">
-                        <h2 class="welcome-title">Welcome to SubFlow</h2>
-                        <p class="welcome-lead">
-                            SubFlow is a professional subscription management dashboard designed to help organizations
-                            monitor, audit, and optimize all recurring software and service expenses in real-time.
-                            Built as part of the 23IT721 Full Stack Development Laboratory, this application demonstrates
-                            a complete, deployment-ready web interface with HTML5 Drag &amp; Drop and Web Storage APIs.
-                        </p>
-                    </article>
-                    <div class="typing-container">
-                        <span class="typing-prefix">Dashboard Status: </span>
-                        <span id="typing-effect" class="typing-text"></span><span class="typing-cursor">|</span>
-                    </div>
-
-                    <div class="mission-vision-grid">
-                        <div class="mv-card hover-zoom">
-                            <div class="mv-icon rotate-hover"><i class="ph ph-eye"></i></div>
-                            <h3>Our Vision</h3>
-                            <p>To eliminate wasted SaaS spend globally, enabling teams and businesses to gain
-                            absolute clarity, control, and efficiency over their recurring digital investments.</p>
-                        </div>
-                        <div class="mv-card hover-zoom">
-                            <div class="mv-icon rotate-hover"><i class="ph ph-target"></i></div>
-                            <h3>Our Mission</h3>
-                            <p>Delivering an intuitive, smart tracking system that audits subscriptions, automates
-                            invoicing, sends renewal reminders, and highlights cost-saving opportunities.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- =====================================================
-                     REQUIREMENT 8: Image/Banner Slider
-                     (Automatic and Manual slider using CSS + JS)
-                ====================================================== -->
-                <section class="slider-section animate-slide-in">
-                    <div class="section-badge">ANNOUNCEMENTS</div>
-                    <div class="slider-container">
-                        <div class="slider-wrapper" id="sliderWrapper">
-                            <!-- Slide 1 -->
-                            <div class="slide active" style="background: linear-gradient(135deg, #1e1b4b, #311042);">
-                                <div class="slide-content">
-                                    <span class="slide-tag">ANALYTICS</span>
-                                    <h3 class="slide-title">Real-Time Spending Analytics</h3>
-                                    <p class="slide-desc">Track where your SaaS dollars are going with detailed department level breakdowns and anomaly detection.</p>
-                                    <a href="#dashboard" class="btn btn-primary btn-slide">Explore Analytics</a>
-                                </div>
-                                <div class="slide-illustration">
-                                    <i class="ph ph-chart-line-up"></i>
-                                </div>
-                            </div>
-                            <!-- Slide 2 -->
-                            <div class="slide" style="background: linear-gradient(135deg, #064e3b, #0f172a);">
-                                <div class="slide-content">
-                                    <span class="slide-tag">AUTOMATION</span>
-                                    <h3 class="slide-title">Automated Invoice Reconcile</h3>
-                                    <p class="slide-desc">SubFlow auto-reconciles transactions directly with bank feeds, Stripe, and PayPal billing APIs.</p>
-                                    <a href="#features" class="btn btn-primary btn-slide">View Features</a>
-                                </div>
-                                <div class="slide-illustration">
-                                    <i class="ph ph-tree-structure"></i>
-                                </div>
-                            </div>
-                            <!-- Slide 3 -->
-                            <div class="slide" style="background: linear-gradient(135deg, #7c2d12, #111827);">
-                                <div class="slide-content">
-                                    <span class="slide-tag">OPTIMIZATION</span>
-                                    <h3 class="slide-title">Smart SaaS Auditing</h3>
-                                    <p class="slide-desc">Uncover up to 30% spend waste by automatically identifying unused user seats and duplicate licenses.</p>
-                                    <a href="#services" class="btn btn-primary btn-slide">View Services</a>
-                                </div>
-                                <div class="slide-illustration">
-                                    <i class="ph ph-shield-check"></i>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Controls -->
-                        <button class="slider-btn prev" id="prevSlide" aria-label="Previous Slide"><i class="ph ph-caret-left"></i></button>
-                        <button class="slider-btn next" id="nextSlide" aria-label="Next Slide"><i class="ph ph-caret-right"></i></button>
-                        
-                        <!-- Indicators -->
-                        <div class="slider-indicators" id="sliderIndicators">
-                            <span class="indicator active" data-index="0"></span>
-                            <span class="indicator" data-index="1"></span>
-                            <span class="indicator" data-index="2"></span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- =====================================================
-                     REQUIREMENT 3 (cont.): About Section
-                ====================================================== -->
-                <section id="about" class="content-section animate-slide-in">
-                    <div class="section-badge">ABOUT</div>
-                    <article class="about-article">
-                        <h2 class="section-title">About SubFlow</h2>
-                        <p class="section-desc">
-                            SubFlow was developed as a capstone project for the Full Stack Development Laboratory course
-                            (23IT721). It showcases modern HTML5 semantic structure, responsive CSS layout, and
-                            JavaScript-driven interactivity — all deployed on Vercel with version control via GitHub.
-                            The platform targets IT managers, finance teams, and startup founders who need a single
-                            source of truth for all subscription-based expenditures.
-                        </p>
-                    </article>
-                </section>
-
-                <!-- =====================================================
-                     REQUIREMENT 4: Dashboard Statistics
-                     (Total Users, Active Users, Revenue, Transactions,
-                      Notifications, Pending Tasks)
-                ====================================================== -->
-                <section id="dashboard" class="content-section animate-slide-in">
-                    <div class="section-header-row">
-                        <div>
-                            <div class="section-badge">OVERVIEW</div>
-                            <h2 class="section-title">Dashboard Statistics</h2>
-                        </div>
-                        <div class="header-actions">
-                            <!-- Sync Button -->
-                            <button class="btn btn-secondary sync-btn" id="syncStatsBtn" title="Sync data and update statistics">
-                                <i class="ph ph-arrows-counter-clockwise"></i><span>Sync Stats</span>
-                            </button>
-                            
-                            <!-- Notification Bell & Panel -->
-                            <div class="notification-bell-container">
-                                <button class="bell-btn" id="bellBtn" aria-label="Open Notifications">
-                                    <i class="ph ph-bell"></i>
-                                    <span class="bell-badge" id="bellBadge">3</span>
-                                </button>
-                                <div class="notification-dropdown hidden" id="notificationDropdown">
-                                    <div class="dropdown-header">
-                                        <h4>Notifications</h4>
-                                        <button class="clear-all-btn" id="clearNotifications">Clear all</button>
-                                    </div>
-                                    <div class="notification-list" id="notificationList">
-                                        <div class="notification-item unread">
-                                            <div class="noti-icon orange"><i class="ph ph-warning"></i></div>
-                                            <div class="noti-body">
-                                                <p class="noti-text">Adobe Creative Cloud subscription renewal is due in 3 days.</p>
-                                                <span class="noti-time">10m ago</span>
-                                            </div>
-                                            <button class="noti-read-btn" aria-label="Mark as read"><i class="ph ph-circle"></i></button>
-                                        </div>
-                                        <div class="notification-item unread">
-                                            <div class="noti-icon green"><i class="ph ph-check-square"></i></div>
-                                            <div class="noti-body">
-                                                <p class="noti-text">Saved $120.00 this month by cancelling 3 inactive Zoom licenses.</p>
-                                                <span class="noti-time">2 hours ago</span>
-                                            </div>
-                                            <button class="noti-read-btn" aria-label="Mark as read"><i class="ph ph-circle"></i></button>
-                                        </div>
-                                        <div class="notification-item unread">
-                                            <div class="noti-icon purple"><i class="ph ph-key"></i></div>
-                                            <div class="noti-body">
-                                                <p class="noti-text">New Stripe integration successfully linked to finance gateway.</p>
-                                                <span class="noti-time">1 day ago</span>
-                                            </div>
-                                            <button class="noti-read-btn" aria-label="Mark as read"><i class="ph ph-circle"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-footer">
-                                        <button id="closeNotificationDropdown" class="btn btn-secondary btn-xs">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Clock / Date Display -->
-                            <div class="date-badge" id="currentDate">Loading Date & Time...</div>
-                        </div>
-                    </div>
-
-                    <div class="stats-grid">
-                        <!-- Total Users -->
-                        <div class="stat-card hover-zoom">
-                            <div class="stat-header">
-                                <span class="stat-label">Total Users</span>
-                                <div class="stat-icon-wrapper orange"><i class="ph ph-users"></i></div>
-                            </div>
-                            <div class="stat-value" id="stat-total-users">1,482</div>
-                            <div class="stat-footer">
-                                <span class="trend-up"><i class="ph ph-trend-up"></i> +12%</span>
-                                <span class="trend-label">from last month</span>
-                            </div>
-                        </div>
-
-                        <!-- Active Users -->
-                        <div class="stat-card hover-zoom">
-                            <div class="stat-header">
-                                <span class="stat-label">Active Users</span>
-                                <div class="stat-icon-wrapper green"><i class="ph ph-user-check"></i></div>
-                            </div>
-                            <div class="stat-value" id="stat-active-users">1,240</div>
-                            <div class="stat-footer">
-                                <span class="trend-up"><i class="ph ph-trend-up"></i> +8.4%</span>
-                                <span class="trend-label">92% utilization rate</span>
-                            </div>
-                        </div>
-
-                        <!-- Revenue -->
-                        <div class="stat-card hover-zoom">
-                            <div class="stat-header">
-                                <span class="stat-label">Revenue</span>
-                                <div class="stat-icon-wrapper gold"><i class="ph ph-currency-dollar"></i></div>
-                            </div>
-                            <div class="stat-value" id="stat-revenue">$14,250</div>
-                            <div class="stat-footer">
-                                <span class="trend-down"><i class="ph ph-trend-down"></i> -4.2%</span>
-                                <span class="trend-label">savings optimized</span>
-                            </div>
-                        </div>
-
-                        <!-- Transactions -->
-                        <div class="stat-card hover-zoom">
-                            <div class="stat-header">
-                                <span class="stat-label">Transactions</span>
-                                <div class="stat-icon-wrapper purple"><i class="ph ph-receipt"></i></div>
-                            </div>
-                            <div class="stat-value" id="stat-transactions">384</div>
-                            <div class="stat-footer">
-                                <span class="trend-up"><i class="ph ph-trend-up"></i> +3.1%</span>
-                                <span class="trend-label">all auto-reconciled</span>
-                            </div>
-                        </div>
-
-                        <!-- Notifications -->
-                        <div class="stat-card hover-zoom" id="notiStatCard">
-                            <div class="stat-header">
-                                <span class="stat-label">Notifications</span>
-                                <div class="stat-icon-wrapper coral"><i class="ph ph-bell"></i></div>
-                            </div>
-                            <div class="stat-value" id="stat-notifications">3</div>
-                            <div class="stat-footer">
-                                <span class="trend-warning"><i class="ph ph-warning-circle"></i> 1 Critical</span>
-                                <span class="trend-label">click to toggle panel</span>
-                            </div>
-                        </div>
-
-                        <!-- Pending Tasks -->
-                        <div class="stat-card hover-zoom">
-                            <div class="stat-header">
-                                <span class="stat-label">Pending Tasks</span>
-                                <div class="stat-icon-wrapper teal"><i class="ph ph-check-square"></i></div>
-                            </div>
-                            <div class="stat-value" id="stat-pending-tasks">5</div>
-                            <div class="stat-footer">
-                                <span class="trend-info"><i class="ph ph-clock"></i> Due Today</span>
-                                <span class="trend-label">renewals &amp; audits</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Optimization Score with Progress Bar -->
-                        <div class="stat-card hover-zoom progress-card">
-                            <div class="stat-header">
-                                <span class="stat-label">Audit Score</span>
-                                <div class="stat-icon-wrapper progress-blue"><i class="ph ph-gauge"></i></div>
-                            </div>
-                            <div class="stat-value" id="stat-audit-score">0%</div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar-fill" id="auditProgressBar" style="width: 0%"></div>
-                            </div>
-                            <div class="stat-footer">
-                                <span class="trend-info"><i class="ph ph-sparkles"></i> Goal: 95%</span>
-                                <span class="trend-label">optimized spend</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- =====================================================
-                     REQUIREMENT 5: Features Section using <ul> and <li>
-                ====================================================== -->
-                <section id="features" class="content-section animate-slide-in">
-                    <div class="section-badge">FEATURES</div>
-                    <h2 class="section-title">Key Platform Features</h2>
-                    <p class="section-desc">Industry-leading features to handle subscription models of all scales:</p>
-                    <ul class="features-grid">
-                        <li class="feature-item hover-zoom">
-                            <div class="feature-icon orange rotate-hover"><i class="ph ph-bell-ringing"></i></div>
-                            <div class="feature-content">
-                                <h3>Automated Renewal Warnings</h3>
-                                <p>Get notified via email, Slack, or SMS 7 days before any license renews. Never be caught off guard by a surprise charge.</p>
-                            </div>
-                        </li>
-                        <li class="feature-item hover-zoom">
-                            <div class="feature-icon green rotate-hover"><i class="ph ph-currency-circle-dollar"></i></div>
-                            <div class="feature-content">
-                                <h3>Multi-Currency Support</h3>
-                                <p>Convert all global SaaS expenditures into a single workspace currency for unified, simple team budgeting.</p>
-                            </div>
-                        </li>
-                        <li class="feature-item hover-zoom">
-                            <div class="feature-icon gold rotate-hover"><i class="ph ph-chart-line-up"></i></div>
-                            <div class="feature-content">
-                                <h3>Granular Spend Analytics</h3>
-                                <p>Analyze monthly software bills by departments, teams, users, or parent categories in our custom interactive charts.</p>
-                            </div>
-                        </li>
-                        <li class="feature-item hover-zoom">
-                            <div class="feature-icon purple rotate-hover"><i class="ph ph-shield-check"></i></div>
-                            <div class="feature-content">
-                                <h3>License Allocation Audit</h3>
-                                <p>Automatically verify software activity logs. Instantly flag empty developer licenses or unused seats.</p>
-                            </div>
-                        </li>
-                        <li class="feature-item hover-zoom">
-                            <div class="feature-icon coral rotate-hover"><i class="ph ph-lock-key"></i></div>
-                            <div class="feature-content">
-                                <h3>Role-Based Access Control</h3>
-                                <p>Maintain workspace integrity. Assign secure admin, manager, or viewer roles to team members seamlessly.</p>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
-
-                <!-- =====================================================
-                     REQUIREMENT 6: Services Section using <ol> and <li>
-                ====================================================== -->
-                <section id="services" class="content-section animate-slide-in">
-                    <div class="section-badge">SERVICES</div>
-                    <h2 class="section-title">Core Management Services</h2>
-                    <p class="section-desc">Specialized manual audits and automated workflows to scale your operations:</p>
-                    <ol class="services-grid">
-                        <li class="service-item hover-zoom">
-                            <div class="service-num-badge">01</div>
-                            <div class="service-content">
-                                <h3>Subscription Lifecycle Audit</h3>
-                                <p>A manual audit of your organization's entire ledger to catalog and build a source of truth for all software subscriptions.</p>
-                            </div>
-                        </li>
-                        <li class="service-item hover-zoom">
-                            <div class="service-num-badge">02</div>
-                            <div class="service-content">
-                                <h3>SaaS Contract Negotiation</h3>
-                                <p>We leverage subscription usage data to negotiate bulk renewals directly with vendors, securing optimal terms.</p>
-                            </div>
-                        </li>
-                        <li class="service-item hover-zoom">
-                            <div class="service-num-badge">03</div>
-                            <div class="service-content">
-                                <h3>Automated Invoice Collection</h3>
-                                <p>Stop wasting hours tracking receipts. Our system auto-gathers PDFs and uploads them to accounting tools.</p>
-                            </div>
-                        </li>
-                        <li class="service-item hover-zoom">
-                            <div class="service-num-badge">04</div>
-                            <div class="service-content">
-                                <h3>Enterprise SSO Integration</h3>
-                                <p>Link user licenses to single sign-on providers like Okta, Azure AD, or Google Workspace to auto-provision seats.</p>
-                            </div>
-                        </li>
-                        <li class="service-item hover-zoom">
-                            <div class="service-num-badge">05</div>
-                            <div class="service-content">
-                                <h3>24/7 Priority Support</h3>
-                                <p>Enterprise customers get a dedicated Slack channel and a customer success engineer to solve technical issues.</p>
-                            </div>
-                        </li>
-                    </ol>
-                </section>
-
-                <section id="modules" class="content-section animate-slide-in">
-                    <div class="section-badge">ARCHITECTURE</div>
-                    <h2 class="section-title">Application Modules</h2>
-                    <p class="section-desc">SubFlow operates using five highly optimized backend and frontend modules:</p>
-
-                    <div class="table-container">
-                        <table class="modules-table">
-                            <thead>
-                                <tr>
-                                    <th>Module ID</th>
-                                    <th>Module Name</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="badge-mono">MOD-001</span></td>
-                                    <td class="table-bold">Identity &amp; Access Manager</td>
-                                    <td>Manages role-based access control, secure OAuth authorization, and organization profiles.</td>
-                                    <td><span class="status-pill status-active">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge-mono">MOD-002</span></td>
-                                    <td class="table-bold">Sync Integration Gateway</td>
-                                    <td>Fetches real-time transaction updates from bank API feeds, Stripe, PayPal, and vendors.</td>
-                                    <td><span class="status-pill status-active">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge-mono">MOD-003</span></td>
-                                    <td class="table-bold">Cost Forecasting Engine</td>
-                                    <td>Calculates future subscription expenses based on trends, renewals, and planned upgrades.</td>
-                                    <td><span class="status-pill status-active">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge-mono">MOD-004</span></td>
-                                    <td class="table-bold">Notification Dispatcher</td>
-                                    <td>Automates alerts across email, SMS, and webhook channels for upcoming invoices and renewals.</td>
-                                    <td><span class="status-pill status-active">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge-mono">MOD-005</span></td>
-                                    <td class="table-bold">Audit Optimization Bot</td>
-                                    <td>Monitors software logins to detect and flag unused user licenses and duplicate subscriptions.</td>
-                                    <td><span class="status-pill status-pending">Testing</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <!-- =====================================================
-                     ASSIGNMENT 4 – REQUIREMENT 5, 6, 7: Drag and Drop
-                     (Draggable source items and a drop target zone)
-                ====================================================== -->
-                <section id="drag-drop" class="content-section animate-slide-in">
-                    <div class="section-badge">DRAG & DROP</div>
-                    <h2 class="section-title">Active Subscriptions</h2>
-                    <p class="section-desc">Drag bills from your active subscriptions into the <strong>Review Queue</strong> to audit them. Uses HTML5 <code>dragstart</code>, <code>dragover</code>, and <code>drop</code> events.</p>
-
-                    <div class="dnd-layout">
-                        <!-- Drag Source: Real subscription bill cards -->
-                        <div class="dnd-source-area">
-                            <h3 class="dnd-area-title"><i class="ph ph-credit-card"></i> Your Bills <span class="dnd-count-badge" id="sourceCount">8</span></h3>
-                            <div class="dnd-source-grid" id="dndSourceGrid">
-
-                                <!-- Netflix -->
-                                <div class="dnd-bill-card" draggable="true" data-id="netflix" data-amount="15.99" data-name="Netflix">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#E50914">
-                                            <i class="ph ph-television"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">Netflix</span>
-                                            <span class="bill-category">Streaming</span>
-                                        </div>
-                                        <span class="bill-status active">Active</span>
-                                    </div>
-                                    <p class="bill-desc">Standard HD plan — 2 screens. Auto-renews monthly via Visa •••• 4242.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 18, 2025</div>
-                                        <div class="bill-amount">$15.99<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- Spotify -->
-                                <div class="dnd-bill-card" draggable="true" data-id="spotify" data-amount="9.99" data-name="Spotify">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#1DB954">
-                                            <i class="ph ph-music-note"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">Spotify</span>
-                                            <span class="bill-category">Music</span>
-                                        </div>
-                                        <span class="bill-status active">Active</span>
-                                    </div>
-                                    <p class="bill-desc">Premium Individual — unlimited skips, offline listening, no ads.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 22, 2025</div>
-                                        <div class="bill-amount">$9.99<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- Home WiFi -->
-                                <div class="dnd-bill-card" draggable="true" data-id="wifi" data-amount="59.99" data-name="Home WiFi">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#0EA5E9">
-                                            <i class="ph ph-wifi-high"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">Home WiFi</span>
-                                            <span class="bill-category">Internet</span>
-                                        </div>
-                                        <span class="bill-status active">Active</span>
-                                    </div>
-                                    <p class="bill-desc">Xfinity 400 Mbps broadband — unlimited data, no contract.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 25, 2025</div>
-                                        <div class="bill-amount">$59.99<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- Adobe CC -->
-                                <div class="dnd-bill-card" draggable="true" data-id="adobe" data-amount="54.99" data-name="Adobe CC">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#FF0000">
-                                            <i class="ph ph-pen-nib"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">Adobe CC</span>
-                                            <span class="bill-category">Design</span>
-                                        </div>
-                                        <span class="bill-status warning">Due Soon</span>
-                                    </div>
-                                    <p class="bill-desc">Creative Cloud All Apps — Photoshop, Illustrator, Premiere Pro &amp; more.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 15, 2025</div>
-                                        <div class="bill-amount">$54.99<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- GitHub Pro -->
-                                <div class="dnd-bill-card" draggable="true" data-id="github" data-amount="4.00" data-name="GitHub Pro">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#24292F">
-                                            <i class="ph ph-github-logo"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">GitHub Pro</span>
-                                            <span class="bill-category">Dev Tools</span>
-                                        </div>
-                                        <span class="bill-status active">Active</span>
-                                    </div>
-                                    <p class="bill-desc">Pro plan — private repos, advanced insights, GitHub Copilot access.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Aug 1, 2025</div>
-                                        <div class="bill-amount">$4.00<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- Electricity -->
-                                <div class="dnd-bill-card" draggable="true" data-id="electricity" data-amount="112.40" data-name="Electricity">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#F59E0B">
-                                            <i class="ph ph-lightning"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">Electricity</span>
-                                            <span class="bill-category">Utility</span>
-                                        </div>
-                                        <span class="bill-status warning">Due Soon</span>
-                                    </div>
-                                    <p class="bill-desc">PG&amp;E residential plan — avg 620 kWh/month. E-bill enrolled.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 16, 2025</div>
-                                        <div class="bill-amount">$112.40<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- ChatGPT Plus -->
-                                <div class="dnd-bill-card" draggable="true" data-id="chatgpt" data-amount="20.00" data-name="ChatGPT Plus">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#10A37F">
-                                            <i class="ph ph-robot"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">ChatGPT Plus</span>
-                                            <span class="bill-category">AI Tools</span>
-                                        </div>
-                                        <span class="bill-status active">Active</span>
-                                    </div>
-                                    <p class="bill-desc">GPT-4o access, DALL·E image gen, advanced data analysis &amp; plugins.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Jul 28, 2025</div>
-                                        <div class="bill-amount">$20.00<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- iCloud+ -->
-                                <div class="dnd-bill-card" draggable="true" data-id="icloud" data-amount="2.99" data-name="iCloud+">
-                                    <div class="bill-card-header">
-                                        <div class="bill-logo-wrap" style="background:#3B82F6">
-                                            <i class="ph ph-cloud"></i>
-                                        </div>
-                                        <div class="bill-meta">
-                                            <span class="bill-name">iCloud+</span>
-                                            <span class="bill-category">Cloud Storage</span>
-                                        </div>
-                                        <span class="bill-status active">Active</span>
-                                    </div>
-                                    <p class="bill-desc">50 GB storage plan — iCloud Drive, Photos backup, Mail privacy.</p>
-                                    <div class="bill-card-footer">
-                                        <div class="bill-detail"><i class="ph ph-calendar-blank"></i> Due Aug 3, 2025</div>
-                                        <div class="bill-amount">$2.99<span>/mo</span></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- Drop Target: Review Queue -->
-                        <div class="dnd-target-area">
-                            <h3 class="dnd-area-title"><i class="ph ph-clipboard-text"></i> Review Queue <span class="dnd-count-badge" id="queueCount">0</span></h3>
-                            <div class="dnd-drop-zone" id="dndDropZone">
-                                <div class="dnd-drop-placeholder" id="dndPlaceholder">
-                                    <i class="ph ph-arrow-fat-lines-left"></i>
-                                    <p>Drag bills here to review</p>
-                                    <span>Selected bills will be queued for audit</span>
-                                </div>
-                            </div>
-                            <!-- Running total summary -->
-                            <div class="dnd-summary" id="dndSummary">
-                                <div class="dnd-summary-row">
-                                    <span>Bills Selected</span>
-                                    <strong id="summaryCount">0</strong>
-                                </div>
-                                <div class="dnd-summary-row">
-                                    <span>Monthly Total</span>
-                                    <strong id="summaryTotal" class="summary-total-amount">$0.00</strong>
-                                </div>
-                                <div class="dnd-summary-row">
-                                    <span>Annual Projection</span>
-                                    <strong id="summaryAnnual" class="summary-annual-amount">$0.00</strong>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary dnd-reset-btn" id="dndResetBtn">
-                                <i class="ph ph-arrow-counter-clockwise"></i> Reset All
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- =====================================================
-                     ASSIGNMENT 4 – REQUIREMENT 8, 9, 10, 11: Web Storage
-                     (localStorage, sessionStorage, retrieve, clear)
-                ====================================================== -->
-                <section id="storage" class="content-section animate-slide-in">
-                    <div class="section-badge">WEB STORAGE</div>
-                    <h2 class="section-title">Web Storage Demo</h2>
-                    <p class="section-desc">Save user preferences permanently with <code>localStorage</code> or temporarily with <code>sessionStorage</code>. Data persists across page reloads (local) or only for the session (session).</p>
-
-                    <div class="storage-layout">
-                        <!-- Storage Input Form -->
-                        <div class="storage-input-card">
-                            <h3 class="storage-card-title"><i class="ph ph-floppy-disk"></i> Save Data</h3>
-                            <div class="storage-form">
-                                <div class="storage-field">
-                                    <label for="storageKey">Key</label>
-                                    <input type="text" id="storageKey" placeholder="e.g. username" autocomplete="off">
-                                </div>
-                                <div class="storage-field">
-                                    <label for="storageValue">Value</label>
-                                    <input type="text" id="storageValue" placeholder="e.g. Alex Carter" autocomplete="off">
-                                </div>
-                                <div class="storage-btn-row">
-                                    <button class="btn btn-primary" id="saveLocalBtn">
-                                        <i class="ph ph-hard-drives"></i> Save to Local
-                                    </button>
-                                    <button class="btn btn-secondary" id="saveSessionBtn">
-                                        <i class="ph ph-clock-countdown"></i> Save to Session
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Aside: Storage Info -->
-                        <aside class="storage-aside">
-                            <div class="storage-info-card">
-                                <h4><i class="ph ph-info"></i> Storage Types</h4>
-                                <div class="storage-info-item">
-                                    <strong>localStorage</strong>
-                                    <p>Data persists permanently until explicitly cleared. Survives browser restarts.</p>
-                                </div>
-                                <div class="storage-info-item">
-                                    <strong>sessionStorage</strong>
-                                    <p>Data is cleared when the browser tab is closed. Ideal for temporary session data.</p>
-                                </div>
-                            </div>
-                        </aside>
-                    </div>
-
-                    <!-- Retrieve & Clear Controls -->
-                    <div class="storage-controls">
-                        <button class="btn btn-primary" id="retrieveDataBtn">
-                            <i class="ph ph-magnifying-glass"></i> Retrieve All Data
-                        </button>
-                        <button class="btn btn-ghost" id="clearLocalBtn">
-                            <i class="ph ph-trash"></i> Clear Local Storage
-                        </button>
-                        <button class="btn btn-ghost" id="clearSessionBtn">
-                            <i class="ph ph-trash"></i> Clear Session Storage
-                        </button>
-                    </div>
-
-                    <!-- Data Display Table -->
-                    <div class="storage-display hidden" id="storageDisplay">
-                        <div class="storage-table-section">
-                            <h4><i class="ph ph-hard-drives"></i> Local Storage</h4>
-                            <div class="table-container">
-                                <table class="modules-table storage-table" id="localStorageTable">
-                                    <thead>
-                                        <tr><th>Key</th><th>Value</th><th>Action</th></tr>
-                                    </thead>
-                                    <tbody id="localStorageBody">
-                                        <tr><td colspan="3" class="empty-row">No data stored</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="storage-table-section">
-                            <h4><i class="ph ph-clock-countdown"></i> Session Storage</h4>
-                            <div class="table-container">
-                                <table class="modules-table storage-table" id="sessionStorageTable">
-                                    <thead>
-                                        <tr><th>Key</th><th>Value</th><th>Action</th></tr>
-                                    </thead>
-                                    <tbody id="sessionStorageBody">
-                                        <tr><td colspan="3" class="empty-row">No data stored</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- =====================================================
-                     REQUIREMENT 8: Registration Form
-                     (Name, Email, Phone, Password, Gender, DOB, Address,
-                      Submit & Reset Buttons)
-                     REQUIREMENT 10: Contact Information
-                     (Email, Phone, Address, Social Media Links)
-                ====================================================== -->
-                <section id="contact" class="content-section grid-2-col animate-slide-in">
-
-                    <!-- Registration Form -->
-                    <div class="form-card">
-                        <div class="section-badge">REGISTRATION</div>
-                        <h2 class="card-title">Create Manager Account</h2>
-                        <p class="card-desc">Register your SubFlow administrator profile to start tracking subscriptions.</p>
-
-                        <form id="registrationForm" class="custom-form" novalidate>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="reg-name">Full Name</label>
-                                    <input type="text" id="reg-name" name="name" placeholder="John Doe" required>
-                                    <div class="error-msg">Please enter your name</div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="reg-email">Email Address</label>
-                                    <input type="email" id="reg-email" name="email" placeholder="john@example.com" required>
-                                    <div class="error-msg">Please enter a valid email</div>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="reg-phone">Phone Number</label>
-                                    <input type="tel" id="reg-phone" name="phone" placeholder="+1 (555) 019-2834" required>
-                                    <div class="error-msg">Please enter your phone number</div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="reg-password">Password</label>
-                                    <input type="password" id="reg-password" name="password" placeholder="••••••••" required>
-                                    <div class="error-msg">Password must be at least 8 characters</div>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="reg-gender">Gender</label>
-                                    <select id="reg-gender" name="gender" required>
-                                        <option value="" disabled selected>Select gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
-                                    </select>
-                                    <div class="error-msg">Please select your gender</div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="reg-dob">Date of Birth</label>
-                                    <input type="date" id="reg-dob" name="dob" required>
-                                    <div class="error-msg">Please enter your date of birth</div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="reg-address">Address</label>
-                                <textarea id="reg-address" name="address" rows="3" placeholder="123 Corporate Blvd, Suite 400" required></textarea>
-                                <div class="error-msg">Please enter your address</div>
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="reset" class="btn btn-secondary" id="resetBtn">Reset</button>
-                                <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Contact Information -->
-                    <div class="contact-card">
-                        <div class="section-badge">CONTACT INFO</div>
-                        <h2 class="card-title">Get in Touch</h2>
-                        <p class="card-desc">Have questions about SubFlow? Reach out to our support team anytime.</p>
-
-                        <div class="contact-details">
-                            <div class="contact-item">
-                                <div class="contact-icon"><i class="ph ph-envelope-simple"></i></div>
-                                <div class="contact-text">
-                                    <span class="contact-label">Email</span>
-                                    <a href="mailto:support@subflow.io" class="contact-link">support@subflow.io</a>
-                                </div>
-                            </div>
-
-                            <div class="contact-item">
-                                <div class="contact-icon"><i class="ph ph-phone-call"></i></div>
-                                <div class="contact-text">
-                                    <span class="contact-label">Phone Number</span>
-                                    <a href="tel:+18005550199" class="contact-link">+1 (800) 555-0199</a>
-                                </div>
-                            </div>
-
-                            <div class="contact-item">
-                                <div class="contact-icon"><i class="ph ph-map-pin"></i></div>
-                                <div class="contact-text">
-                                    <span class="contact-label">Address</span>
-                                    <p class="contact-val">Suite 721, Full Stack Tower, Silicon Valley, CA 94025</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="social-section">
-                            <h3>Social Media</h3>
-                            <div class="social-links">
-                                <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link">
-                                    <i class="ph ph-github-logo"></i>
-                                </a>
-                                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-link">
-                                    <i class="ph ph-linkedin-logo"></i>
-                                </a>
-                                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-link">
-                                    <i class="ph ph-twitter-logo"></i>
-                                </a>
-                                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-link">
-                                    <i class="ph ph-youtube-logo"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- =====================================================
-                     ASSIGNMENT 4 – REQUIREMENT 3: Help Section
-                ====================================================== -->
-                <section id="help" class="content-section animate-slide-in">
-                    <div class="section-badge">HELP</div>
-                    <article class="help-article">
-                        <h2 class="section-title">Help &amp; Support</h2>
-                        <p class="section-desc">Find answers to common questions about SubFlow, drag-and-drop, and web storage features.</p>
-                    </article>
-                    <div class="faq-list">
-                        <details class="faq-item">
-                            <summary>How does the Drag &amp; Drop feature work?</summary>
-                            <p>Grab any category card or the SubFlow logo from the Drag Source area and drop it into the Drop Target zone. The HTML5 <code>dragstart</code>, <code>dragover</code>, and <code>drop</code> events handle the interaction.</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>What is the difference between Local and Session Storage?</summary>
-                            <p><strong>localStorage</strong> saves data permanently until you clear it. <strong>sessionStorage</strong> only keeps data for the current browser tab session and is removed when the tab closes.</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>How do I retrieve or clear stored data?</summary>
-                            <p>Click <em>Retrieve All Data</em> to view saved key-value pairs in tables. Use <em>Clear Local Storage</em> or <em>Clear Session Storage</em> to remove data. Individual keys can also be deleted from the table.</p>
-                        </details>
-                        <details class="faq-item">
-                            <summary>Need more assistance?</summary>
-                            <p>Contact our support team at <a href="mailto:support@subflow.io">support@subflow.io</a> or call <a href="tel:+18005550199">+1 (800) 555-0199</a>.</p>
-                        </details>
-                    </div>
-                </section>
-
-            </div><!-- end .content-body -->
-
-            <!-- =====================================================
-                 ASSIGNMENT 4 – REQUIREMENT 12: Footer
-                 Copyright, student name, institution, contact details
-            ====================================================== -->
-            <footer class="app-footer">
-                <div class="footer-divider"></div>
-                <div class="footer-content">
-                    <div class="footer-brand-block">
-                        <img src="subflow_logo.png" alt="SubFlow Logo" class="footer-logo">
-                        <span class="footer-app-name">SubFlow</span>
-                    </div>
-                    <div class="footer-info-block">
-                        <p class="footer-copyright">&copy; 2026 SubFlow. All rights reserved.</p>
-                        <p class="footer-designed">Designed by <strong>Alex Carter</strong> | Reg No: 23IT701</p>
-                        <p class="footer-institution">Department of Information Technology, Full Stack University</p>
-                    </div>
-                    <div class="footer-contact-block">
-                        <a href="mailto:support@subflow.io"><i class="ph ph-envelope"></i> support@subflow.io</a>
-                        <a href="tel:+18005550199"><i class="ph ph-phone"></i> +1 (800) 555-0199</a>
-                        <span class="footer-address"><i class="ph ph-map-pin"></i> Suite 721, Full Stack Tower, Silicon Valley, CA 94025</span>
-                    </div>
+            <div class="noti-card info">
+                <div class="noti-icon"><i class="fa-solid fa-gift"></i></div>
+                <div class="noti-details">
+                    <h4>Special Promo Applied</h4>
+                    <p>You have unlocked 20% off your next consultation booking!</p>
+                    <span class="noti-time">Valid till end of month</span>
                 </div>
-            </footer>
-
-        </main>
-    </div>
-
-    <!-- Floating Back to Top Button -->
-    <button class="scroll-top-btn hidden" id="scrollTopBtn" aria-label="Back to Top">
-        <i class="ph ph-arrow-up"></i>
-    </button>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast hidden">
-        <div class="toast-icon" id="toastIcon"><i class="ph ph-check-circle"></i></div>
-        <div class="toast-content">
-            <h4 class="toast-title" id="toastTitle">Success</h4>
-            <p class="toast-msg" id="toastMsg">Action completed successfully.</p>
+            </div>
+            <div class="noti-card success">
+                <div class="noti-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="noti-details">
+                    <h4>Audit Session Confirmed</h4>
+                    <p>Your subscription sync with Stripe was authorized successfully.</p>
+                    <span class="noti-time">2 hours ago</span>
+                </div>
+            </div>
+        </div>
+        <div class="notification-footer">
+            <button class="btn btn-secondary btn-sm" id="clearAllNotiBtn">Mark all as read</button>
         </div>
     </div>
 
+    <!-- Navigation Bar (Requirement 2: Sticky Top Navbar, hover effects, active menu highlighting, responsive hamburger) -->
+    <header class="header-container">
+        <div class="header-inner">
+            <div class="brand-logo">
+                <div class="logo-box">
+                    <i class="fa-solid fa-chart-line logo-icon"></i>
+                </div>
+                <div>
+                    <h1 class="app-title">SubFlow</h1>
+                    <p class="app-subtitle">Smart Spend Audits</p>
+                </div>
+            </div>
+
+            <!-- Hamburger Button for Mobile -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Navigation Links -->
+            <nav class="navigation-bar" id="navigationBar">
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active" id="link-home"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li><a href="#subscriptions" class="nav-link" id="link-subscriptions"><i class="fa-solid fa-wallet"></i> Subscriptions</a></li>
+                    <li><a href="#integrations" class="nav-link" id="link-integrations"><i class="fa-solid fa-network-wired"></i> Integrations</a></li>
+                    <li><a href="#reservations" class="nav-link" id="link-reservations"><i class="fa-solid fa-calendar-check"></i> Reservations</a></li>
+                    <li><a href="#gallery" class="nav-link" id="link-gallery"><i class="fa-solid fa-images"></i> Gallery</a></li>
+                    <li><a href="#reviews" class="nav-link" id="link-reviews"><i class="fa-solid fa-star"></i> Reviews</a></li>
+                    <li><a href="#contact" class="nav-link" id="link-contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+                    <li>
+                        <!-- Logout Button with transition -->
+                        <a href="#logout" class="logout-btn" id="link-logout" data-tooltip="Sign out of Dashboard">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="header-controls">
+                <!-- Theme Switcher Button (Requirement 10) -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Light/Dark Theme" data-tooltip="Switch Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                
+                <!-- Notification Bell Button -->
+                <button class="bell-btn" id="bellBtn" data-tooltip="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="bell-badge" id="bellBadge">3</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-wrapper">
+
+        <!-- Welcome Banner Section (Requirement 3: Name, tagline, specialties, vision, mission, promotional offers, Slide-In / Fade-In) -->
+        <section id="home" class="welcome-banner animate-fade-in" style="margin-bottom: 2rem;"> <!-- Demonstration of inline style -->
+            <div class="welcome-overlay"></div>
+            <div class="welcome-content">
+                <span class="welcome-tagline">SMART SPEND MONITORING</span>
+                <h1 class="welcome-title">Master Your Subscriptions with <span style="color: var(--primary);">SubFlow</span></h1>
+                
+                <!-- Typing Effect (Requirement 14: Animation typing effect) -->
+                <div class="typing-container">
+                    <span class="typing-text" id="typingEffect"></span><span class="typing-cursor">|</span>
+                </div>
+
+                <!-- Specialties lists -->
+                <div class="specialties-row">
+                    <div class="spec-badge"><i class="fa-solid fa-bell-ringing"></i> 7-Day Renewal Reminders</div>
+                    <div class="spec-badge"><i class="fa-solid fa-magnifying-glass-dollar"></i> Idle License Audits</div>
+                    <div class="spec-badge"><i class="fa-solid fa-piggy-bank"></i> Budget Optimization</div>
+                </div>
+
+                <!-- Promotional Offers banner -->
+                <div class="promo-box animate-pulse">
+                    <span class="promo-tag">LIMITED SPECIAL OFFER</span>
+                    <p class="promo-text">Sign up today and get a **Free 1-on-1 Spend Consultation Audit**! Save up to 25% on annual SaaS costs.</p>
+                </div>
+
+                <!-- CTA buttons with animations (Requirement 15: Action buttons transitions) -->
+                <div class="welcome-ctas">
+                    <a href="#reservations" class="btn btn-primary btn-lg reserve-btn"><i class="fa-solid fa-calendar-days"></i> Reserve Consult Slot</a>
+                    <a href="#subscriptions" class="btn btn-outline btn-lg order-btn"><i class="fa-solid fa-magnifying-glass"></i> View Popular Plans</a>
+                </div>
+
+                <!-- Vision & Mission (Requirement 3) -->
+                <div class="vision-mission-grid">
+                    <div class="vm-card">
+                        <h3><i class="fa-solid fa-eye vm-icon"></i> Our Vision</h3>
+                        <p class="welcome-desc">To eliminate licensing waste globally, creating absolute clarity, control, and value for every cloud subscription a business holds.</p>
+                    </div>
+                    <div class="vm-card">
+                        <h3><i class="fa-solid fa-bullseye vm-icon"></i> Our Mission</h3>
+                        <p>Providing an automated, highly visual platform that parses billing APIs, tracks team usage limits, and offers instant cost savings audits.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Cards Section (Requirement 4: Available Tables, Today's Orders, Popular Dishes, Customer Ratings) -->
+        <section class="dashboard-section" style="padding: 2.5rem 0;">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">REAL-TIME OVERVIEW</span>
+                <h2 class="section-main-title">Spend Analytics Dashboard</h2>
+                <!-- Live Date and Time Display (Requirement 9: Live Clock display using JS) -->
+                <div class="clock-display" id="clockDisplay">
+                    <i class="fa-regular fa-clock"></i> Loading Date & Time...
+                </div>
+            </div>
+
+            <!-- Dashboard Metric Cards Grid (Requirement 22 & 23: Grid & Flexbox) -->
+            <div class="dashboard-cards-grid">
+                
+                <!-- Card 1: Available Tables equivalent -> Available Budget (Table availability equivalent) -->
+                <div class="metric-card card-zoom">
+                    <div class="card-glow"></div>
+                    <div class="metric-header">
+                        <span class="metric-label">Safe-to-Spend Budget</span>
+                        <div class="metric-icon-wrap bg-teal"><i class="fa-solid fa-vault"></i></div>
+                    </div>
+                    <!-- Dynamic counters (Requirement 5: Dynamic stats counters) -->
+                    <div class="metric-value counter-value" data-target="1240" id="count-budget">$0</div>
+                    <div class="metric-meta">
+                        <span class="trend-up"><i class="fa-solid fa-circle-check"></i> Within Limit</span>
+                        <span class="meta-desc">of $2,000 threshold</span>
+                    </div>
+                    <span class="equiv-badge">Table Availability Equivalent</span>
+                </div>
+
+                <!-- Card 2: Today's Orders equivalent -> Invoices Processed (Orders equivalent) -->
+                <div class="metric-card card-zoom">
+                    <div class="card-glow"></div>
+                    <div class="metric-header">
+                        <span class="metric-label">Active Subscriptions</span>
+                        <div class="metric-icon-wrap bg-primary"><i class="fa-solid fa-receipt"></i></div>
+                    </div>
+                    <div class="metric-value counter-value" data-target="15" id="count-orders">0</div>
+                    <div class="metric-meta">
+                        <span class="trend-up"><i class="fa-solid fa-plus"></i> 3 New</span>
+                        <span class="meta-desc">linked this billing period</span>
+                    </div>
+                    <span class="equiv-badge">Today's Orders Equivalent</span>
+                </div>
+
+                <!-- Card 3: Popular Dishes equivalent -> Top Service (Popular dish equivalent) -->
+                <div class="metric-card card-zoom">
+                    <div class="card-glow"></div>
+                    <div class="metric-header">
+                        <span class="metric-label">Top Billing Platform</span>
+                        <div class="metric-icon-wrap bg-violet"><i class="fa-brands fa-aws"></i></div>
+                    </div>
+                    <div class="metric-value" style="font-size: 1.8rem; font-weight: 700; font-family: 'Outfit', sans-serif; margin: 10px 0;">AWS Cloud</div>
+                    <div class="metric-meta">
+                        <span class="trend-down"><i class="fa-solid fa-money-bill-wave"></i> $540/mo</span>
+                        <span class="meta-desc">consists of 2 active server instances</span>
+                    </div>
+                    <span class="equiv-badge">Popular Dishes Equivalent</span>
+                </div>
+
+                <!-- Card 4: Customer Ratings equivalent -> Spend Optimization Score (Ratings equivalent) -->
+                <div class="metric-card card-zoom">
+                    <div class="card-glow"></div>
+                    <div class="metric-header">
+                        <span class="metric-label">Savings Score</span>
+                        <div class="metric-icon-wrap bg-gold"><i class="fa-solid fa-star"></i></div>
+                    </div>
+                    <div class="metric-value counter-value" data-target="94" data-suffix="%" id="count-rating">0%</div>
+                    <div class="metric-meta">
+                        <span class="stars-row">
+                            <i class="fa-solid fa-star star-filled"></i>
+                            <i class="fa-solid fa-star star-filled"></i>
+                            <i class="fa-solid fa-star star-filled"></i>
+                            <i class="fa-solid fa-star star-filled"></i>
+                            <i class="fa-solid fa-star-half-stroke star-filled"></i>
+                        </span>
+                        <span class="meta-desc">Excellent optimization rating</span>
+                    </div>
+                    <span class="equiv-badge">Customer Ratings Equivalent</span>
+                </div>
+            </div>
+
+            <!-- CSS Progress Bar (Requirement 31: progress bar design using CSS animations) -->
+            <div class="progress-section">
+                <div class="progress-info-row">
+                    <span class="progress-label"><i class="fa-solid fa-chart-pie"></i> Budget Allocation Utilization (Limit: $2,500)</span>
+                    <span class="progress-percentage" id="progressPct">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="spendProgressBar"></div>
+                </div>
+            </div>
+
+            <!-- Dynamic Statistics Counters Display Panel (Requirement 5: Today's Visitors, Orders Served, Revenue, Available Tables) -->
+            <div class="statistics-counters-panel">
+                <div class="stat-counter-item">
+                    <div class="stat-icon-box"><i class="fa-solid fa-users"></i></div>
+                    <h3 class="stat-count counter-value" data-target="3240" id="stat-visitors">0</h3>
+                    <p class="stat-desc">Daily Active Users</p>
+                </div>
+                <div class="stat-counter-item">
+                    <div class="stat-icon-box"><i class="fa-solid fa-circle-check"></i></div>
+                    <h3 class="stat-count counter-value" data-target="18400" id="stat-served">0</h3>
+                    <p class="stat-desc">Subscriptions Audited</p>
+                </div>
+                <div class="stat-counter-item">
+                    <div class="stat-icon-box"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                    <h3 class="stat-count counter-value" data-target="142500" data-prefix="$" id="stat-revenue">0</h3>
+                    <p class="stat-desc">Monthly Spend Tracked</p>
+                </div>
+                <div class="stat-counter-item">
+                    <div class="stat-icon-box"><i class="fa-solid fa-heart-circle-check"></i></div>
+                    <h3 class="stat-count counter-value" data-target="412" id="stat-tables">0</h3>
+                    <p class="stat-desc">Savings Opportunities</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscriptions Section (Requirement 2 / Menu: Subscriptions list with pricing details, hover highlights) -->
+        <section id="subscriptions" class="subscriptions-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">POPULAR SERVICES</span>
+                <h2 class="section-main-title">Tracked SaaS Platforms</h2>
+                <p class="section-description">Below are some of the most popular subscription packages tracked and managed in SubFlow workspaces.</p>
+            </div>
+
+            <div class="subscriptions-grid">
+                
+                <!-- Plan 1 -->
+                <div class="subscription-item-card">
+                    <div class="sub-item-badge">ENTERTAINMENT</div>
+                    <div class="sub-icon-wrap" style="background-color: #E50914;"><i class="fa-solid fa-play"></i></div>
+                    <h3 class="sub-item-name">Netflix Premium</h3>
+                    <p class="sub-item-desc">4K Ultra HD streaming, 4 screens simultaneous viewing, downloads on 6 devices.</p>
+                    <div class="sub-item-price">$22.99<span>/month</span></div>
+                    <div class="card-action-bar">
+                        <button class="btn btn-sm btn-secondary" onclick="showToast('Success', 'Added Netflix Premium tracker to your queue.', 'success')">Monitor Plan</button>
+                    </div>
+                </div>
+
+                <!-- Plan 2 -->
+                <div class="subscription-item-card">
+                    <div class="sub-item-badge">PRODUCTIVITY</div>
+                    <div class="sub-icon-wrap" style="background-color: #0078d4;"><i class="fa-solid fa-briefcase"></i></div>
+                    <h3 class="sub-item-name">Microsoft 365</h3>
+                    <p class="sub-item-desc">Enterprise office applications, 1TB OneDrive cloud storage, advanced security features.</p>
+                    <div class="sub-item-price">$12.50<span>/user/mo</span></div>
+                    <div class="card-action-bar">
+                        <button class="btn btn-sm btn-secondary" onclick="showToast('Success', 'Added Microsoft 365 tracker to your queue.', 'success')">Monitor Plan</button>
+                    </div>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="subscription-item-card">
+                    <div class="sub-item-badge text-gold">DESIGN</div>
+                    <div class="sub-icon-wrap" style="background-color: #FF0000;"><i class="fa-solid fa-bezier-curve"></i></div>
+                    <h3 class="sub-item-name">Adobe Creative Cloud</h3>
+                    <p class="sub-item-desc">Access to 20+ apps including Photoshop, Illustrator, Premiere Pro, and Acrobat DC.</p>
+                    <div class="sub-item-price">$54.99<span>/month</span></div>
+                    <div class="card-action-bar">
+                        <button class="btn btn-sm btn-secondary" onclick="showToast('Success', 'Added Adobe CC tracker to your queue.', 'success')">Monitor Plan</button>
+                    </div>
+                </div>
+
+                <!-- Plan 4 -->
+                <div class="subscription-item-card">
+                    <div class="sub-item-badge">DEVELOPER</div>
+                    <div class="sub-icon-wrap" style="background-color: #24292F;"><i class="fa-brands fa-github"></i></div>
+                    <h3 class="sub-item-name">GitHub Copilot Team</h3>
+                    <p class="sub-item-desc">AI-powered code suggestions, team license management, organizational access control.</p>
+                    <div class="sub-item-price">$19.00<span>/user/mo</span></div>
+                    <div class="card-action-bar">
+                        <button class="btn btn-sm btn-secondary" onclick="showToast('Success', 'Added GitHub Copilot tracker to your queue.', 'success')">Monitor Plan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Integrations Section (Requirement 2 / Chefs: Integrations/Providers showcase, relative layout and hover scale effects) -->
+        <section id="integrations" class="integrations-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">BILLING CHANNELS</span>
+                <h2 class="section-main-title">Supported API Integrations</h2>
+                <p class="section-description">Our platform leverages secure API connectors to automatically pull transactions from standard financial gateways and SaaS providers.</p>
+            </div>
+
+            <div class="integrations-container">
+                <!-- Integration 1 -->
+                <div class="integration-card hover-zoom">
+                    <div class="integration-logo-wrap"><i class="fa-brands fa-stripe stripe-color"></i></div>
+                    <h3>Stripe Sync API</h3>
+                    <p>Fetches client subscriptions, invoices, payment history, and auto-reconciles them with ledger keys.</p>
+                    <span class="int-status">Active Gateway</span>
+                </div>
+
+                <!-- Integration 2 -->
+                <div class="integration-card hover-zoom">
+                    <div class="integration-logo-wrap"><i class="fa-brands fa-paypal paypal-color"></i></div>
+                    <h3>PayPal Merchant API</h3>
+                    <p>Scans recurring merchant profiles, subscription terms, and registers upcoming renewal schedules.</p>
+                    <span class="int-status">Active Gateway</span>
+                </div>
+
+                <!-- Integration 3 -->
+                <div class="integration-card hover-zoom">
+                    <div class="integration-logo-wrap"><i class="fa-brands fa-aws aws-color"></i></div>
+                    <h3>AWS Billing Console</h3>
+                    <p>Parses hourly usage billing buckets, active instances, and generates cost-saving resource alerts.</p>
+                    <span class="int-status">Active Sync</span>
+                </div>
+
+                <!-- Integration 4 -->
+                <div class="integration-card hover-zoom">
+                    <div class="integration-logo-wrap"><i class="fa-brands fa-google google-color"></i></div>
+                    <h3>Google Cloud Workspace</h3>
+                    <p>Audits GSuite licenses, active admin accounts, storage allocations, and flags duplicate seats.</p>
+                    <span class="int-status">Active Sync</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section (Requirement 6: Features list with animated cards - Reservation, delivery, kitchen, hall, payment equivalent) -->
+        <section id="features" class="features-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">PLATFORM ADVANTAGES</span>
+                <h2 class="section-main-title">Core SubFlow Features</h2>
+            </div>
+
+            <div class="features-grid">
+                
+                <!-- Feature 1: Reservation equivalent -> Online Reservation Booking -->
+                <div class="feature-card zoom-hover">
+                    <div class="feature-icon orange rotate-hover"><i class="fa-solid fa-calendar-check"></i></div>
+                    <h3>Online Reservations</h3>
+                    <p>Book real-time spend audit consultation slots with certified IT cost accountants directly through our dashboard.</p>
+                    <span class="equiv-tag">Online Reservation Equivalent</span>
+                </div>
+
+                <!-- Feature 2: Delivery equivalent -> Auto Alert Delivery -->
+                <div class="feature-card zoom-hover">
+                    <div class="feature-icon green rotate-hover"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                    <h3>Instant Alert Delivery</h3>
+                    <p>Receive immediate alerts via Slack, Microsoft Teams, or WhatsApp the moment a subscription billing anomaly occurs.</p>
+                    <span class="equiv-tag">Home Delivery Equivalent</span>
+                </div>
+
+                <!-- Feature 3: Kitchen equivalent -> Live API Scanning -->
+                <div class="feature-card zoom-hover">
+                    <div class="feature-icon gold rotate-hover"><i class="fa-solid fa-fire-burner"></i></div>
+                    <h3>Live API Kitchen</h3>
+                    <p>Our backend acts as a live sync pipeline, continuously monitoring billing logs and active user session states.</p>
+                    <span class="equiv-tag">Live Kitchen Equivalent</span>
+                </div>
+
+                <!-- Feature 4: Hall equivalent -> Shared Team Hubs -->
+                <div class="feature-card zoom-hover">
+                    <div class="feature-icon purple rotate-hover"><i class="fa-solid fa-people-roof"></i></div>
+                    <h3>Enterprise Party Hubs</h3>
+                    <p>Create department-wide workspaces to manage software allocations, handle invite list approvals, and check team spends.</p>
+                    <span class="equiv-tag">Party Hall Equivalent</span>
+                </div>
+
+                <!-- Feature 5: Payment equivalent -> Digital Payment Integrations -->
+                <div class="feature-card zoom-hover">
+                    <div class="feature-icon coral rotate-hover"><i class="fa-solid fa-credit-card"></i></div>
+                    <h3>Digital Payments Sync</h3>
+                    <p>Integrate multi-currency corporate cards, Stripe, or bank feeds safely. We audit transactions securely.</p>
+                    <span class="equiv-tag">Digital Payment Equivalent</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section (Requirement 7: Services including Dine-In, Takeaway, Online Delivery, Catering, Event Booking) -->
+        <section id="services" class="services-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">OUR SPECIALTIES</span>
+                <h2 class="section-main-title">Professional Management Services</h2>
+            </div>
+
+            <!-- CSS Grid Layout (Requirement 22: Design services section using CSS Grid) -->
+            <div class="services-grid-container">
+                
+                <!-- Service 1: Dine-In equivalent -> In-App Tracking -->
+                <div class="service-box">
+                    <div class="service-num">01</div>
+                    <div class="service-icon"><i class="fa-solid fa-chair"></i></div>
+                    <h3>In-App Tracking</h3>
+                    <p>Log inside the portal and view real-time logs. Manage subscriptions from our secure interface.</p>
+                    <span class="equiv-tag">Dine-In Equivalent</span>
+                </div>
+
+                <!-- Service 2: Takeaway equivalent -> CSV Export & Sync -->
+                <div class="service-box">
+                    <div class="service-num">02</div>
+                    <div class="service-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <h3>Bulk CSV Export</h3>
+                    <p>Instantly download audit reports, invoices, and summaries to take with you to leadership board meetings.</p>
+                    <span class="equiv-tag">Takeaway Equivalent</span>
+                </div>
+
+                <!-- Service 3: Online Delivery equivalent -> Automated Sync Scanning -->
+                <div class="service-box">
+                    <div class="service-num">03</div>
+                    <div class="service-icon"><i class="fa-solid fa-truck"></i></div>
+                    <h3>Automated Sync Scanning</h3>
+                    <p>API bots crawl your accounts daily to index subscriptions and deliver direct dashboard statistics updates.</p>
+                    <span class="equiv-tag">Online Delivery Equivalent</span>
+                </div>
+
+                <!-- Service 4: Catering equivalent -> Dedicated SaaS Negotiation -->
+                <div class="service-box">
+                    <div class="service-num">04</div>
+                    <div class="service-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <h3>Dedicated SaaS Negotiation</h3>
+                    <p>For large organizations, our experts represent your team to negotiate enterprise contracts with software vendors.</p>
+                    <span class="equiv-tag">Catering Equivalent</span>
+                </div>
+
+                <!-- Service 5: Event Booking equivalent -> Custom Integration Setup -->
+                <div class="service-box">
+                    <div class="service-num">05</div>
+                    <div class="service-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <h3>Custom Integration Setup</h3>
+                    <p>Book onboarding workshop bootcamps for your DevOps and finance teams to sync single sign-on systems.</p>
+                    <span class="equiv-tag">Event Booking Equivalent</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slider Section (Requirement 8: Automatic Image Slider showcasing screens/charts using JavaScript) -->
+        <section class="slider-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">PREVIEWS</span>
+                <h2 class="section-main-title">Platform Walkthrough Slider</h2>
+            </div>
+
+            <div class="slider-outer-container">
+                <div class="slider-container" id="sliderContainer">
+                    
+                    <!-- Slide 1 -->
+                    <div class="slide-item active" style="background: linear-gradient(135deg, #1e1b4b, #2e1065);">
+                        <div class="slide-content">
+                            <span class="slide-label">METRICS HUB</span>
+                            <h3>Detailed Spending Analytics</h3>
+                            <p>Get a complete department-level breakdown. Detect duplicate billing, anomalous transaction sizes, and license utilization rates with ease.</p>
+                            <a href="#subscriptions" class="btn btn-primary btn-sm">Explore Details</a>
+                        </div>
+                        <div class="slide-visual">
+                            <i class="fa-solid fa-chart-pie slide-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="slide-item" style="background: linear-gradient(135deg, #064e3b, #022c22);">
+                        <div class="slide-content">
+                            <span class="slide-label">SECURITY CONSOLE</span>
+                            <h3>Stripe Sync API Integration</h3>
+                            <p>Direct API handshakes pull real-time billing logs. Authorized OAuth keys ensure transactions sync smoothly and securely under banking protocols.</p>
+                            <a href="#integrations" class="btn btn-primary btn-sm">View Integrations</a>
+                        </div>
+                        <div class="slide-visual">
+                            <i class="fa-solid fa-shield-halved slide-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="slide-item" style="background: linear-gradient(135deg, #7c2d12, #451a03);">
+                        <div class="slide-content">
+                            <span class="slide-label">AUDIT ROBOT</span>
+                            <h3>Unused License Cleanup</h3>
+                            <p>Reclaim up to 30% of license waste by highlighting team accounts that have logged no active sessions for more than 30 consecutive days.</p>
+                            <a href="#services" class="btn btn-primary btn-sm">Read Auditing Info</a>
+                        </div>
+                        <div class="slide-visual">
+                            <i class="fa-solid fa-robot slide-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slider Controls -->
+                <button class="slider-control prev" id="prevSlideBtn" aria-label="Previous Slide"><i class="fa-solid fa-circle-chevron-left"></i></button>
+                <button class="slider-control next" id="nextSlideBtn" aria-label="Next Slide"><i class="fa-solid fa-circle-chevron-right"></i></button>
+
+                <!-- Slider Indicators -->
+                <div class="slider-indicators" id="sliderIndicators">
+                    <span class="indicator active" data-index="0"></span>
+                    <span class="indicator" data-index="1"></span>
+                    <span class="indicator" data-index="2"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section (Requirement 29: Image Hover Effects: Zoom, Grayscale, Blur, Opacity, Overlay) -->
+        <section id="gallery" class="gallery-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">SCREENSHOT GALLERY</span>
+                <h2 class="section-main-title">Interactive Dashboard Previews</h2>
+                <p class="section-description">Hover over these interactive mock screens to witness advanced CSS image filters (zoom, grayscale, blur, opacity, overlays) in action.</p>
+            </div>
+
+            <!-- CSS Grid Gallery Layout -->
+            <div class="gallery-grid">
+                
+                <!-- Gallery 1: Zoom Effect -->
+                <div class="gallery-item-wrap">
+                    <div class="gallery-img-box zoom-effect" style="background: linear-gradient(135deg, #0f172a, #3b82f6);">
+                        <i class="fa-solid fa-desktop mock-gallery-icon"></i>
+                    </div>
+                    <div class="gallery-caption">
+                        <h4>Spend Analytics</h4>
+                        <p>CSS Zoom Effect</p>
+                    </div>
+                </div>
+
+                <!-- Gallery 2: Grayscale Effect -->
+                <div class="gallery-item-wrap">
+                    <div class="gallery-img-box grayscale-effect" style="background: linear-gradient(135deg, #1e1b4b, #a855f7);">
+                        <i class="fa-solid fa-chart-line mock-gallery-icon"></i>
+                    </div>
+                    <div class="gallery-caption">
+                        <h4>Renewal Calendar</h4>
+                        <p>CSS Grayscale Effect</p>
+                    </div>
+                </div>
+
+                <!-- Gallery 3: Blur Effect -->
+                <div class="gallery-item-wrap">
+                    <div class="gallery-img-box blur-effect" style="background: linear-gradient(135deg, #064e3b, #10b981);">
+                        <i class="fa-solid fa-lock mock-gallery-icon"></i>
+                    </div>
+                    <div class="gallery-caption">
+                        <h4>Security Auditing</h4>
+                        <p>CSS Blur Effect</p>
+                    </div>
+                </div>
+
+                <!-- Gallery 4: Opacity Effect -->
+                <div class="gallery-item-wrap">
+                    <div class="gallery-img-box opacity-effect" style="background: linear-gradient(135deg, #7c2d12, #f97316);">
+                        <i class="fa-solid fa-users mock-gallery-icon"></i>
+                    </div>
+                    <div class="gallery-caption">
+                        <h4>Team Workspaces</h4>
+                        <p>CSS Opacity Effect</p>
+                    </div>
+                </div>
+
+                <!-- Gallery 5: Overlay Effect -->
+                <div class="gallery-item-wrap">
+                    <div class="gallery-img-box overlay-effect" style="background: linear-gradient(135deg, #111827, #64748b);">
+                        <i class="fa-solid fa-network-wired mock-gallery-icon"></i>
+                        <div class="gallery-img-overlay">
+                            <span>SaaS Integrations Hub</span>
+                        </div>
+                    </div>
+                    <div class="gallery-caption">
+                        <h4>Integration Suite</h4>
+                        <p>CSS Overlay Effect</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews" class="reviews-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">TESTIMONIALS</span>
+                <h2 class="section-main-title">Client Success Stories</h2>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                    </div>
+                    <p class="review-text">"SubFlow completely changed our SaaS bookkeeping. We detected 12 inactive user seats on Adobe CC and saved $660 in our very first billing month."</p>
+                    <div class="review-author">
+                        <div class="author-avatar"><i class="fa-solid fa-user-tie"></i></div>
+                        <div>
+                            <h4>Sarah Jenkins</h4>
+                            <span>CFO, TechVibe Solutions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                        <i class="fa-solid fa-star star-filled"></i>
+                    </div>
+                    <p class="review-text">"The automated Slack renewal alerts are incredibly helpful. We haven't had a single surprise recurring billing charge since deploying SubFlow."</p>
+                    <div class="review-author">
+                        <div class="author-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+                        <div>
+                            <h4>Markus Chen</h4>
+                            <span>DevOps Director, CloudGrid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reservation Form Section (Requirement 12: Name, Email, Phone, Date, Time, Number of Guests, Seating Preference, Submit, Reset) -->
+        <section id="reservations" class="reservation-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">BOOKING PORTAL</span>
+                <h2 class="section-main-title">Reserve a Free Audit Consultation</h2>
+                <p class="section-description">Fill out the reservation form below to book a live SaaS budget optimization audit with an IT finance advisor.</p>
+            </div>
+
+            <div class="reservation-container">
+                <form id="reservationForm" class="reservation-form" novalidate>
+                    <div class="form-row">
+                        <!-- Customer Name Field -->
+                        <div class="form-group flex-1">
+                            <label for="resName">Customer Name <span class="required-star">*</span></label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-user input-icon"></i>
+                                <input type="text" id="resName" placeholder="Alex Carter" required minlength="3">
+                            </div>
+                            <span class="error-text" id="error-resName">Name must be at least 3 characters.</span>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="form-group flex-1">
+                            <label for="resEmail">Email Address <span class="required-star">*</span></label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-envelope input-icon"></i>
+                                <input type="email" id="resEmail" placeholder="alex@company.com" required>
+                            </div>
+                            <span class="error-text" id="error-resEmail">Please enter a valid email address.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <!-- Phone Field -->
+                        <div class="form-group flex-1">
+                            <label for="resPhone">Phone Number <span class="required-star">*</span></label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-phone input-icon"></i>
+                                <input type="tel" id="resPhone" placeholder="123-456-7890" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                            </div>
+                            <span class="error-text" id="error-resPhone">Please enter phone format: 123-456-7890</span>
+                        </div>
+
+                        <!-- Seating Preference Field -> Platform preference (Google Meet, Zoom, MS Teams, Phone Call) -->
+                        <div class="form-group flex-1">
+                            <label for="resSeating">Conference Preference <span class="required-star">*</span></label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-display input-icon"></i>
+                                <select id="resSeating" required>
+                                    <option value="" disabled selected>Select Screen Share Tool</option>
+                                    <option value="Google Meet">Google Meet</option>
+                                    <option value="Zoom Meeting">Zoom Meeting</option>
+                                    <option value="Microsoft Teams">Microsoft Teams</option>
+                                    <option value="Telephone Session">Direct Phone Call</option>
+                                </select>
+                            </div>
+                            <span class="error-text" id="error-resSeating">Please select your preferred conference platform.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <!-- Date Field -->
+                        <div class="form-group flex-1">
+                            <label for="resDate">Consultation Date <span class="required-star">*</span></label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-calendar-days input-icon"></i>
+                                <input type="date" id="resDate" required>
+                            </div>
+                            <span class="error-text" id="error-resDate">Date must be today or in the future.</span>
+                        </div>
+
+                        <!-- Time Field -->
+                        <div class="form-group flex-1">
+                            <label for="resTime">Consultation Time <span class="required-star">*</span></label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-clock input-icon"></i>
+                                <input type="time" id="resTime" required>
+                            </div>
+                            <span class="error-text" id="error-resTime">Please specify a time for the call.</span>
+                        </div>
+
+                        <!-- Number of Guests Field -> Team Members on the call -->
+                        <div class="form-group flex-1">
+                            <label for="resGuests">Number of Guests (Team Members) <span class="required-star">*</span></label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-users input-icon"></i>
+                                <input type="number" id="resGuests" min="1" max="100" placeholder="3" required>
+                            </div>
+                            <span class="error-text" id="error-resGuests">Guests must be between 1 and 100.</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons with CSS Transitions (Requirement 15: Action buttons CSS transitions) -->
+                    <div class="form-actions-row">
+                        <button type="reset" class="btn btn-secondary action-transition-btn" id="resResetBtn">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Form
+                        </button>
+                        <button type="submit" class="btn btn-primary action-transition-btn" id="resSubmitBtn">
+                            <i class="fa-solid fa-circle-check"></i> Book Consultation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contact Section (Requirement 17: Address, Phone, Email, Google Maps placeholder, and social links) -->
+        <section id="contact" class="contact-section">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">GET IN TOUCH</span>
+                <h2 class="section-main-title">Contact Support & Headquarters</h2>
+            </div>
+
+            <div class="contact-layout">
+                <!-- Details -->
+                <div class="contact-details-box">
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="contact-card-text">
+                            <h4>Office Location</h4>
+                            <p>Suite 721, Full Stack Tower, Silicon Valley, CA 94025</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fa-solid fa-phone-volume"></i></div>
+                        <div class="contact-card-text">
+                            <h4>Phone Hotline</h4>
+                            <p>+1 (800) 555-0199 (Mon-Fri, 9AM-5PM PST)</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                        <div class="contact-card-text">
+                            <h4>Support Email</h4>
+                            <p>support@subflow.io</p>
+                        </div>
+                    </div>
+
+                    <!-- Social Links with scale & transition -->
+                    <div class="social-wrapper">
+                        <h4>Connect with us</h4>
+                        <div class="social-links-grid">
+                            <a href="https://github.com" target="_blank" rel="noopener" class="social-icon-btn" data-tooltip="Follow on GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-icon-btn" data-tooltip="Link with us">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener" class="social-icon-btn" data-tooltip="Tweet at us">
+                                <i class="fa-brands fa-twitter"></i>
+                            </a>
+                            <a href="https://youtube.com" target="_blank" rel="noopener" class="social-icon-btn" data-tooltip="Subscribe on YouTube">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps (Styled SVG/Interactive map placeholder for lab validation) -->
+                <div class="map-placeholder-box">
+                    <div class="map-overlay">
+                        <div class="map-pin animate-bounce"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="map-info">
+                            <h5>SubFlow HQ</h5>
+                            <p>Silicon Valley, California</p>
+                            <a href="https://maps.google.com" target="_blank" class="btn btn-primary btn-xs">Open in Maps</a>
+                        </div>
+                    </div>
+                    <!-- Minimal grid illustration simulating map contours -->
+                    <div class="map-grid-mesh"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (Requirement 18: Copyright, App name, developer name, social media icons) -->
+    <footer class="footer-container">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-chart-line footer-logo-icon"></i>
+                    <span class="footer-logo-text">SubFlow</span>
+                </div>
+                <p class="footer-desc">Professional Spend Audit Platform developed for 23IT721 - Full Stack Development Laboratory.</p>
+            </div>
+            
+            <div class="footer-center">
+                <span class="footer-title">STUDENT DEVELOPER INFO</span>
+                <p class="footer-dev-name" id="studentDevName">Alex Carter</p>
+                <p class="footer-dev-reg">Register No: 23IT701</p>
+                <p class="footer-institution">Department of Information Technology</p>
+            </div>
+
+            <div class="footer-right">
+                <span class="footer-title">LINKS & SOCLALS</span>
+                <div class="footer-social-row">
+                    <a href="https://github.com" target="_blank" rel="noopener" class="footer-social-icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-icon"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+                <p class="footer-copyright">&copy; 2026 SubFlow Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button (Requirement 16: Floating back to top button with JS) -->
+    <button class="back-to-top-btn" id="backToTopBtn" aria-label="Back to Top" data-tooltip="Scroll to Top">
+        <i class="fa-solid fa-arrow-up-long"></i>
+    </button>
+
+    <!-- Success/Notification Toast Alert -->
+    <div class="toast-panel hidden" id="toastPanel">
+        <div class="toast-indicator" id="toastIndicator"></div>
+        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="toast-text">
+            <h4 id="toastTitle">Notification</h4>
+            <p id="toastMessage">Successfully processed.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="app.js"></script>
 </body>
 </html>
