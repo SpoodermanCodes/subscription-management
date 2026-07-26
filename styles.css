@@ -176,6 +176,7 @@ body {
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-lg);
     transition: box-shadow var(--transition), transform var(--transition);
+    overflow: hidden;
 }
 
 .app-header {
@@ -183,6 +184,7 @@ body {
     flex-direction: column;
     gap: 1.25rem;
     margin-bottom: 1.5rem;
+    flex-shrink: 0;
 }
 
 .logo-wrapper {
@@ -274,7 +276,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .nav-links {
@@ -282,6 +286,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding-right: 2px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
 }
 
 .nav-link {
